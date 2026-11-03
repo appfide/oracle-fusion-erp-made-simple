@@ -161,7 +161,7 @@ async function route() {
   document.body.dataset.route = parts[0] || 'home';
 
   // title + focus
-  const h1 = main.querySelector('h1');
+  const h1 = main.querySelector('h1') || main.querySelector('.step-title');
   const section = path.split('/')[1];
   document.title = `${h1 && path !== '/' ? `${h1.textContent} · ` : TITLES[section] ? `${TITLES[section]} · ` : ''}${APP.name}`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });

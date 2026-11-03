@@ -358,7 +358,7 @@ export async function lessonView(moduleId, slug, params = new URLSearchParams())
     link(nextHref, { class: 'btn btn-primary step-next' }, h('span', {}, nextLabel), icon('arrowRight', 18)));
   stepBar.querySelector('.bar').style.setProperty('--p', `${((current + 1) / steps.length) * 100}%`);
 
-  const article = h('article', { class: 'lesson codelab-step', 'data-step': String(current) },
+  const article = h('article', { class: 'lesson codelab-step', 'data-step': String(current), 'aria-label': `${lesson.title}, step ${current + 1} of ${steps.length}` },
     current > 0 && h('p', { class: 'kicker step-kicker' }, `${m.short} · ${lesson.title}`),
     mobilePicker,
     ...body,
