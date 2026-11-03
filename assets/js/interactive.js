@@ -43,12 +43,17 @@ function shuffledNotSame(arr) {
   return s;
 }
 
+const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+/** ISO date plus some days; '' when the result is not a real date (e.g. absurd day counts). */
 function addDays(iso, days) {
   const d = new Date(`${iso}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + Number(days || 0));
-  return d.toISOString().slice(0, 10);
+  return Number.isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
 }
-const fmtDate = (iso) => (iso ? new Date(`${iso}T00:00:00Z`).toLocaleDateString(undefined, { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' }) : '—');
+const fmtDate = (iso) => {
+  const d = iso ? new Date(`${iso}T00:00:00Z`) : null;
+  return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString(undefined, { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' }) : '—';
+};
 
 function field(label, input, hint) {
   const id = input.id || nid('f');
@@ -304,7 +309,7 @@ const exercises = {
 };
 
 export function renderExercise(b, ctx) {
-  const fn = exercises[b.kind];
+  const fn = Object.hasOwn(exercises, b.kind) ? exercises[b.kind] : null;
   return fn ? fn(b, ctx) : h('div', { class: 'blk' }, `Unknown exercise kind: ${b.kind}`);
 }
 
@@ -440,7 +445,8 @@ export const LABS = {
       const v = { invoiceDate: '2026-01-05', amount: 500, netDays: 30, discountPct: 2, discountDays: 10, payDate: '2026-01-14', ...p };
       const ins = {
         invoiceDate: h('input', { class: 'input', type: 'date', value: v.invoiceDate }),
-        amount: numInput(v.amount), netDays: numInput(v.netDays), discountPct: numInput(v.discountPct), discountDays: numInput(v.discountDays),
+        amount: numInput(v.amount, { min: '0' }), netDays: numInput(v.netDays, { min: '0', max: '3650', step: '1' }),
+        discountPct: numInput(v.discountPct, { min: '0', max: '100' }), discountDays: numInput(v.discountDays, { min: '0', max: '3650', step: '1' }),
         payDate: h('input', { class: 'input', type: 'date', value: v.payDate }),
       };
       const out = h('div');
@@ -450,10 +456,11 @@ export const LABS = {
         field('Date we actually pay', ins.payDate));
       const calc = () => {
         const d0 = ins.invoiceDate.value || v.invoiceDate;
-        const amt = toNum(ins.amount.value) || 0;
-        const net = toNum(ins.netDays.value) || 0;
-        const dp = toNum(ins.discountPct.value) || 0;
-        const dd = toNum(ins.discountDays.value) || 0;
+        // Keep the numbers in a real-world range: whole days up to 10 years, discount 0-100%.
+        const amt = Math.max(0, toNum(ins.amount.value) || 0);
+        const net = clamp(Math.round(toNum(ins.netDays.value) || 0), 0, 3650);
+        const dp = clamp(toNum(ins.discountPct.value) || 0, 0, 100);
+        const dd = clamp(Math.round(toNum(ins.discountDays.value) || 0), 0, 3650);
         const due = addDays(d0, net);
         const discDate = addDays(d0, dd);
         const pay = ins.payDate.value;
@@ -461,7 +468,7 @@ export const LABS = {
         const takes = dp > 0 && pay && pay <= discDate;
         const late = pay && pay > due;
         const termName = dp > 0 ? `${dp}/${dd} Net ${net}` : `Net ${net}`;
-        const annual = dp > 0 && net > dd ? (dp / (100 - dp)) * (365 / (net - dd)) * 100 : 0;
+        const annual = dp > 0 && dp < 100 && net > dd ? (dp / (100 - dp)) * (365 / (net - dd)) * 100 : 0;
         out.replaceChildren(
           h('div', { class: `verdict ${late ? 'bad' : 'ok'}` }, `Terms: ${termName}`, h('small', {}, dp > 0 ? `Pay by ${fmtDate(discDate)} to save ${money(disc)}; otherwise pay ${money(amt)} by ${fmtDate(due)}.` : `Pay ${money(amt)} by ${fmtDate(due)}.`)),
           dp > 0 && resultRow('Discount date', fmtDate(discDate)),
@@ -483,18 +490,19 @@ export const LABS = {
     blurb: 'See how an asset’s cost is spread over its life with straight-line or declining-balance depreciation.',
     render(p = {}) {
       const v = { cost: 6000, salvage: 0, lifeMonths: 60, method: 'sl', rate: 200, ...p };
-      const ins = { cost: numInput(v.cost), salvage: numInput(v.salvage), lifeMonths: numInput(v.lifeMonths), rate: numInput(v.rate) };
+      const ins = { cost: numInput(v.cost, { min: '0' }), salvage: numInput(v.salvage, { min: '0' }), lifeMonths: numInput(v.lifeMonths, { min: '1', max: '1200', step: '1' }), rate: numInput(v.rate, { min: '1', max: '1000' }) };
       const method = select([['sl', 'Straight-line (same amount every month)'], ['db', 'Declining balance (more at the start)']], v.method);
       const rateWrap = field('Declining-balance rate % (200 = double declining)', ins.rate);
       const out = h('div');
       const controls = h('div', {}, field('Method', method), field('Cost', ins.cost), field('Salvage (left-over) value', ins.salvage), field('Useful life in months', ins.lifeMonths), rateWrap);
       const calc = () => {
-        const cost = toNum(ins.cost.value) || 0;
-        const salv = Math.min(toNum(ins.salvage.value) || 0, cost);
-        const life = Math.max(1, Math.round(toNum(ins.lifeMonths.value) || 1));
+        // Real-world ranges keep the schedule small: life 1-1200 months (100 years), rate 1-1000%.
+        const cost = Math.max(0, toNum(ins.cost.value) || 0);
+        const salv = clamp(toNum(ins.salvage.value) || 0, 0, cost);
+        const life = clamp(Math.round(toNum(ins.lifeMonths.value) || 1), 1, 1200);
         const db = method.value === 'db';
         rateWrap.hidden = !db;
-        const annualRate = ((toNum(ins.rate.value) || 200) / 100) / (life / 12);
+        const annualRate = (clamp(toNum(ins.rate.value) || 200, 1, 1000) / 100) / (life / 12);
         let nbv = cost;
         let acc = 0;
         const years = [];
@@ -638,7 +646,7 @@ export const LABS = {
 };
 
 export function renderLab(b) {
-  const lab = LABS[b.tool];
+  const lab = Object.hasOwn(LABS, b.tool) ? LABS[b.tool] : null;
   if (!lab) return h('div', { class: 'blk' }, `Unknown lab: ${b.tool}`);
   const { controls, output, wide } = lab.render(b.preset || {});
   const el = labShell(b.title || lab.title, b.intro, controls, output);

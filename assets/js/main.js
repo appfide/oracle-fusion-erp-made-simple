@@ -122,22 +122,25 @@ const TITLES = {
 
 let renderToken = 0;
 async function route() {
-  const raw = location.hash.replace(/^#/, '') || '/';
-  // in-page anchors like #g-A are handled by views; ignore them here
-  if (!raw.startsWith('/')) return;
+  let raw = location.hash.replace(/^#/, '') || '/';
+  // in-page anchors like #g-A are handled by views; ignore them once a page is showing
+  if (!raw.startsWith('/')) {
+    if ($('#main').childElementCount) return;
+    raw = '/'; // opened with a stray anchor (e.g. a shared link ending in #main): show the start page
+  }
   const [path, qs] = raw.split('?');
   const params = new URLSearchParams(qs || '');
   const main = $('#main');
   const token = ++renderToken;
 
-  let view = null;
-  for (const [re, fn] of routes) {
-    const m = path.match(re);
-    if (m) { view = fn(m, params); break; }
-  }
   main.setAttribute('aria-busy', 'true');
   let node;
   try {
+    let view = null;
+    for (const [re, fn] of routes) {
+      const m = path.match(re);
+      if (m) { view = fn(m, params); break; }
+    }
     node = await (view || notFoundView());
   } catch (e) {
     console.error(e);
@@ -193,6 +196,11 @@ store.onChange(() => { applySettings(); updateTopProgress(); });
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', updateReadProgress, { passive: true });
+// "Skip to content" moves focus without touching the URL (the hash holds the route).
+document.querySelector('.skip-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  $('#main').focus();
+});
 document.addEventListener('keydown', (e) => {
   const tag = (e.target.tagName || '').toLowerCase();
   if (e.key === '/' && !['input', 'textarea', 'select'].includes(tag) && !e.metaKey && !e.ctrlKey) {

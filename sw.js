@@ -3,7 +3,7 @@
  * "stale-while-revalidate" for every same-origin GET (lessons included).
  * Bump VERSION when the app shell changes.
  */
-const VERSION = 'v1.1.1';
+const VERSION = 'v1.2.0';
 const CACHE = `erp-made-simple-${VERSION}`;
 const SHELL = [
   './',

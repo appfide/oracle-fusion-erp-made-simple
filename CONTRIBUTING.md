@@ -29,6 +29,8 @@ Thank you for helping people learn! 🍋
 1. Fork the repository and create a branch.
 2. Make your change, then run `node scripts/validate-content.mjs` and `npm test`.
    The browser tests need Google Chrome or Chromium installed; set `CHROME_PATH` if it is somewhere unusual.
+   Run one area with `node --test tests/<area>.test.mjs`. Fuzz tests print their seed; repeat a failing run with
+   `FUZZ_SEED=<seed> npm test`. A new feature should come with a test (see the table in the README).
 3. Commit with a sign-off: `git commit -s` (see below).
 4. Open a pull request using the template. Small, focused PRs are reviewed fastest.
 
