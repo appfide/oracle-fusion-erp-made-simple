@@ -25,7 +25,8 @@ export default {
 <li><strong>Batch payments with a Payment Process Request (PPR)</strong>: the normal way. Ava gives selection criteria (for example "everything due by Friday from Sunny US BU"), and Oracle selects all matching installments, validates them, groups them into payments and creates payment files. Most companies run PPRs on a schedule, such as twice a week.</li>
 <li><strong>Single payments with Create Payment</strong>: for one-off cases, such as an urgent payment or recording a payment that was already made outside Oracle.</li>
 </ul>
-<p>Both are done in the <strong>Payments</strong> work area (from the home page: <kbd>Payables</kbd> then <kbd>Payments</kbd>). Its <strong>Overview</strong> page shows requests and files that need attention, and the Tasks panel holds actions such as <kbd>Submit Payment Process Request</kbd>, <kbd>Manage Payment Process Requests</kbd> and <kbd>Create Positive Pay File</kbd>.</p>`,
+<p>Both are done in the <strong>Payments</strong> work area (from the home page: <kbd>Payables</kbd> then <kbd>Payments</kbd>). Its <strong>Overview</strong> page shows requests and files that need attention, and the Tasks panel holds actions such as <kbd>Submit Payment Process Request</kbd>, <kbd>Manage Payment Process Requests</kbd> and <kbd>Create Positive Pay File</kbd>.</p>
+<p>In release 26D, the AI-driven <strong>Payments Agent</strong> (Navigator &gt; ERP Agents &gt; Payments Agent) can also explain why a payment process request or payment file failed, in plain business words, and suggest the next step.</p>`,
     },
     {
       type: 'flow',
@@ -363,5 +364,6 @@ export default {
     { title: 'How a Positive Pay File Is Generated', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fappp/how-a-positive-pay-file-is-generated.html' },
     { title: 'Generate Payments (Create Payment: Manual, Quick or Refund)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faufa/generate-payments.html' },
     { title: 'Oracle Fusion Cloud Financials 26D What’s New: ISO Positive Pay File for Voided Checks', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50872.htm' },
+    { title: 'Oracle Fusion Cloud Financials 26D What’s New: Payments Agent for Payment Options, Offers, and Execution', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51180.htm' },
   ],
 };

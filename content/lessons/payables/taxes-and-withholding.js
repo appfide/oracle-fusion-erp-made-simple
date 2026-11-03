@@ -203,7 +203,7 @@ export default {
       type: 'callout',
       variant: 'info',
       title: 'New in release 26D: 1099 electronic filing changes',
-      html: `<p>Oracle’s 26D What’s New describes support for the IRS <strong>Information Returns Intake System (IRIS)</strong>: the US 1099 Electronic Media Report can produce IRIS-ready CSV files for Forms 1099-MISC, 1099-NEC, 1099-G and 1099-INT, and a new XML process supports filing through tax partners. Also, the <strong>US 1096</strong> summary form is now generated automatically as part of the US 1099 Report, so it no longer needs to be run separately. If you learned 1099s on an older release, check these changes.</p>`,
+      html: `<p>Oracle’s 26D What’s New describes support for the IRS <strong>Information Returns Intake System (IRIS)</strong>: the US 1099 Electronic Media Report can produce IRIS-ready CSV files for Forms 1099-MISC, 1099-NEC and 1099-INT (the US 1099-G Electronic Media Report does the same for 1099-G), and a new XML process supports filing through tax partners. Also, the <strong>US 1096</strong> summary form is now generated automatically as part of the US 1099 Report (and the US 1099-G Report), so it no longer needs to be run separately. If you learned 1099s on an older release, check these changes.</p>`,
     },
     {
       type: 'callout',

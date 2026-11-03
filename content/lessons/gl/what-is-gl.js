@@ -197,7 +197,7 @@ export default {
         {
           icon: '🤖',
           title: 'New: Ledger Agent',
-          html: `<p>Since update 26B Oracle offers a <strong>Ledger Agent</strong> that answers natural-language questions about balances and journals and watches for exceptions. In 26C and 26D it grew into the <strong>Ledger Agentic Application</strong>, which can carry out larger pieces of analysis, such as explaining month-over-month changes. It needs its own role and setup, so not every company has it switched on.</p>`,
+          html: `<p>Since update 26B Oracle offers a <strong>Ledger Agent</strong> that answers natural-language questions about balances and journals and watches for exceptions. In 26C and 26D it grew into the <strong>Ledger Agentic Application</strong>, which can carry out larger pieces of analysis, such as explaining month-over-month changes. In 26D it can also fix some journal import and posting errors by itself, following rules your company writes down. It needs its own role and setup, so not every company has it switched on.</p>`,
         },
       ],
     },

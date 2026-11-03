@@ -152,7 +152,7 @@ export default {
 <li><strong>Invoices</strong> – where you create, find, validate, approve and fix invoices. Its <strong>Invoices landing page</strong> is Ava’s daily to-do list.</li>
 <li><strong>Payments</strong> – where you pay suppliers, manage payment runs (payment process requests), and review payments. You will use it in the Paying Suppliers lesson.</li>
 </ul>
-<p>Since release 26B, Oracle has also added the AI-driven <strong>Payables Agent</strong>, with its own <strong>Invoice List</strong> page for exception handling, and release 26D adds a <strong>Payables Period Close Workspace</strong>. Your company may use the classic work areas, the new agent experience, or both.</p>`,
+<p>Since release 26B, Oracle has also added the AI-driven <strong>Payables Agent</strong>, with its own <strong>Invoice List</strong> page for exception handling, and release 26D adds a <strong>Payables Period Close Workspace</strong>. From 26D you open the Payables Agent from the new <strong>ERP Agents</strong> group in the Navigator. Your company may use the classic work areas, the new agent experience, or both.</p>`,
     },
     {
       type: 'table',

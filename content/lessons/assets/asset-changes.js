@@ -212,7 +212,8 @@ export default {
         '<kbd>Submit</kbd> (or <kbd>Save</kbd> to keep it as an incomplete draft). Pending retirements appear on the <kbd>Retirements</kbd> infotile until posted.',
         'After accounting, view the gain or loss on the asset in <kbd>Inquire Assets</kbd> or in the <kbd>Asset Retirements Report</kbd>.',
       ],
-      note: `<p>Panel tab and button labels can differ slightly by release, Redwood pages and your company’s approval setup (Oracle Assets can route transactions for approval if enabled).</p>`,
+      note: `<p>Panel tab and button labels can differ slightly by release, Redwood pages and your company’s approval setup (Oracle Assets can route transactions for approval if enabled).</p>
+<p>Since update 26C, a company can also switch on the <strong>Retirement Assistant</strong>, an AI helper that retires whole assets (full cost only, up to 25 at a time) through a chat, from the AI Agents page.</p>`,
     },
     {
       type: 'callout',
@@ -285,5 +286,6 @@ export default {
     { title: 'Review Journal Entries for Retirement Transactions', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faalm/review-journal-entries-for-retirement-transactions.html' },
     { title: 'Reinstate Assets', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faalm/reinstate-assets.html' },
     { title: 'Oracle Fusion Cloud Financials — Using Assets 26D (PDF)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faalm/using-assets.pdf' },
+    { title: 'Financials 26C What’s New — Retirement Assistant', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/fins26c/26C-fin-wn-f49559.htm' },
   ],
 };

@@ -719,3 +719,7 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 2.2rem
 .lab-chip { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: .5rem .9rem; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-weight: 650; text-decoration: none; font-size: .92rem; }
 .lab-chip:hover { background: var(--surface-3); color: var(--primary); }
 @media (max-width: 760px) { .home-labs { grid-template-columns: 1fr; } }
+
+/* Oracle release badge (home hero) */
+.release-badge { display: inline-flex; align-items: center; gap: .4em; margin: 0 0 1rem; padding: .35em .85em; min-height: 32px; border-radius: 999px; font-size: .85rem; font-weight: 700; text-decoration: none; background: var(--success-soft); color: var(--success); }
+.release-badge:hover { text-decoration: underline; }

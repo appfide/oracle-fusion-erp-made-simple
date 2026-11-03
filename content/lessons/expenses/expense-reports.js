@@ -105,7 +105,7 @@ export default {
         {
           icon: '📱',
           title: 'From your phone',
-          html: `<p>On a phone you can use the classic Oracle Fusion Expenses mobile app, or — with Expenses Agent — the browser-based Progressive Web App. Both let you attach receipt photos or PDFs. If a mobile report fails a check, it is saved as a draft on the web so you can fix it.</p>`,
+          html: `<p>On a phone you can use the classic Oracle Fusion Expenses mobile app (Oracle says it will no longer be supported for Fusion from update 27B), or — with Expenses Agent — the browser-based Progressive Web App. Both let you attach receipt photos or PDFs. If a mobile report fails a check, it is saved as a draft on the web so you can fix it.</p>`,
         },
       ],
     },
@@ -262,6 +262,7 @@ export default {
     { title: 'Implementing Expenses (26D) – Expense Types', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faiex/expense-types.html' },
     { title: 'Implementing Expenses (26D) – How You Set Up a Mileage Expense Policy', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faiex/how-you-set-up-a-mileage-expense-policy.html' },
     { title: 'Detailed Adoption Guidance: Expenses Agent – Expenses Agent Capabilities', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/faeac/expenses-agent-capabilities.html' },
+    { title: 'Oracle Fusion Cloud Financials 26D What’s New – IMPORTANT Actions and Considerations', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-t78536.htm' },
     { title: 'Financials 26D What’s New – Expenses Agent for itemization and attendees', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50632.htm' },
   ],
 };

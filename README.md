@@ -1,6 +1,10 @@
 # 🍋 ERP Made Simple — Oracle Fusion Cloud ERP for absolute beginners
 
-Created by **Appfide Private Limited**.
+Created by **[Appfide Private Limited](https://appfide.com)**.
+
+> ✅ **Matches Oracle Fusion Cloud Applications update 26D** (checked November 2026). Oracle rolls 26D out to
+> customers from mid-November 2026 to mid-January 2027; if your company is still on 26C, almost everything is the same,
+> and lessons say when a feature is new in a specific update. Lessons are reviewed every quarter.
 
 A free, open-source web app that teaches **Oracle Fusion Cloud ERP** step by step — explained so simply that a
 10-year-old could follow, yet deep enough to use at work.
@@ -43,6 +47,7 @@ content/lessons/<module>/<lesson>.js   One file per lesson
 docs/CONTENT_GUIDE.md      How to write lessons (audience, accuracy rules, block types)
 scripts/validate-content.mjs   Validates every lesson (run in CI)
 scripts/check-links.mjs    Checks all cited source URLs still work
+scripts/build-seo.mjs      Builds search-friendly text pages (/learn/…), sitemap.xml and robots.txt (run in CI)
 sw.js, manifest.webmanifest    Offline support / installable app
 ```
 
@@ -60,7 +65,8 @@ node scripts/validate-content.mjs
 The site is plain static files. It deploys automatically to **GitHub Pages** via
 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `main` (after validation passes).
 To self-host, copy `index.html`, `manifest.webmanifest`, `sw.js`, `assets/` and `content/` to any web server
-(Nginx, Apache, Cloudflare Pages, Netlify, S3…). No server-side code is needed.
+(Nginx, Apache, Cloudflare Pages, Netlify, S3…), then run `node scripts/build-seo.mjs <that folder>` to add the
+search-friendly lesson pages and sitemap (set `site` in `assets/js/config.js` to your URL first). No server-side code is needed.
 
 ## License
 

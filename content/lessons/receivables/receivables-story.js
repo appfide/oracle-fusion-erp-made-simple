@@ -283,7 +283,7 @@ export default {
 <li><strong>Create Customer Statements</strong> – the monthly statement.</li>
 <li><strong>Create Receivables Accounting</strong> and the <strong>Receivables to General Ledger Reconciliation</strong> extract and report – month-end proof.</li>
 </ul>
-<p>Labels and menus vary by release, Redwood adoption and your company’s setup. Newer releases also offer AI helpers (such as a Cash Processing Agent and a Collector Workspace) that can do parts of this story with guidance — but the business steps stay the same.</p>`,
+<p>Labels and menus vary by release, Redwood adoption and your company’s setup. Newer releases also offer AI helpers (such as a Cash Processing Agent, a Collector Workspace and, in 26D, a Billing Operations Workspace that helps billers handle invoice holds and simple billing disputes) that can do parts of this story with guidance — but the business steps stay the same.</p>`,
     },
     {
       type: 'callout',
@@ -370,5 +370,8 @@ export default {
     { title: 'Aged or Staged Dunning', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fairp/aged-or-staged-dunning.html' },
     { title: 'Collections Task', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faofc/collections-task.html' },
     { title: 'Overview of the Receivables to General Ledger Reconciliation Report', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faofc/overview-of-the-receivables-to-general-ledger-reconciliation.html' },
+    { title: 'Financials 26D What’s New — Cash Processing Agent for receipt processing and cash application', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51477.htm' },
+    { title: 'Financials 26D What’s New — Collector Workspace Agentic Application', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51379.htm' },
+    { title: 'Financials 26D What’s New — Billing Operations Workspace', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51329.htm' },
   ],
 };

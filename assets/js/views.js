@@ -3,7 +3,7 @@
  */
 import { h, icon, toast, announce } from './dom.js';
 import { store } from './store.js';
-import { APP } from './config.js';
+import { APP, ORACLE } from './config.js';
 import { renderBlock, stepTitle } from './blocks.js';
 import { LABS, renderLab } from './interactive.js';
 import {
@@ -79,6 +79,7 @@ export function homeView() {
       h('h1', { tabindex: '-1' }, 'Learn Oracle Fusion Cloud ERP, step by step.'),
       h('p', { class: 'lead' },
         'Explained so simply that a 10-year-old could follow — yet deep enough to use at work. Start with the basics, master Accounts Payable, then explore the rest of the system.'),
+      link('#/about', { class: 'release-badge', title: ORACLE.rollout }, icon('check', 16), `Matches Oracle release ${ORACLE.release} · checked ${ORACLE.checked}`),
       h('div', { class: 'hero-actions' },
         nxt
           ? link(lessonHref(nxt), { class: 'btn btn-primary btn-lg' }, icon('play'), started ? 'Continue learning' : 'Start the first lesson')
@@ -639,6 +640,16 @@ export function aboutView() {
         h('li', {}, 'Your progress is saved only in your own browser (localStorage). We can’t see it.'),
         h('li', {}, 'You can export, import or erase your progress any time in Settings.'),
         h('li', {}, 'The site loads no third-party scripts or fonts.')),
+      h('h2', { id: 'version' }, 'Which Oracle version does this match?'),
+      h('p', {}, `Every lesson was written and checked against Oracle Fusion Cloud Applications update ${ORACLE.release} (checked ${ORACLE.checked}). ${ORACLE.rollout}.`),
+      h('ul', {},
+        h('li', {}, 'Oracle updates Fusion four times a year (A, B, C, D). Names are the year plus a letter, so 26D is the fourth update of 2026.'),
+        h('li', {}, `If your company is still on the previous update (26C), almost everything here is the same. Where a feature is new in a specific update, the lesson says so.`),
+        h('li', {}, 'Sources link to the matching release of the Oracle Help Center, so you can always read the official page for this version.'),
+        h('li', {}, 'We review the lessons each quarter when Oracle publishes its new What’s New documents.')),
+      h('p', {}, link(ORACLE.whatsNew, { target: '_blank', rel: 'noopener' }, `Oracle Financials ${ORACLE.release} What’s New`), ' · ', link(ORACLE.docs, { target: '_blank', rel: 'noopener' }, `Oracle Financials ${ORACLE.release} documentation`)),
+      h('h2', {}, 'Who made this?'),
+      h('p', {}, `${APP.name} was created by `, link(APP.authorUrl, { target: '_blank', rel: 'noopener' }, APP.author), ', an app studio from India that builds mobile apps, AI products and open-source projects. It is free for everyone and maintained together with the open-source community.'),
       h('h2', {}, 'Is this official Oracle training?'),
       h('p', {}, 'No. This is an independent community project and is not affiliated with or endorsed by Oracle. It explains Oracle’s official documentation in simpler words and links to it. Oracle Fusion Cloud is updated every quarter, so screens and names can change. When in doubt, the official Oracle Help Center is the source of truth.'),
       h('h2', {}, 'Can I help?'),

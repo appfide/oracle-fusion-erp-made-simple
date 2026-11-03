@@ -40,7 +40,7 @@ export default {
         ['<strong>Payments Agent</strong>', 'Helps choose payment options such as early pay and virtual cards, works with banks, and watches acknowledgements and exceptions.', 'Ava and Mia'],
         ['<strong>Expenses Agent</strong>', 'Pulls expense details from receipts, matches them to card charges, checks policy and handles questions in natural language.', 'Noah and every employee'],
         ['<strong>Cash Processing Agent</strong>', 'Creates receipts from bank statement lines, reads remittance advices and matches them; helps with bank reconciliation and cash positioning.', 'Omar and Mia'],
-        ['<strong>Collectors Workspace</strong> (agentic application)', 'Supports collectors with risk analysis, suggested next actions and outreach.', 'Omar'],
+        ['<strong>Collector Workspace</strong> (agentic application)', 'Supports collectors with risk analysis, suggested next actions and outreach.', 'Omar'],
       ],
     },
     {
@@ -237,7 +237,7 @@ export default {
     { title: 'Oracle AI for Fusion Applications', publisher: 'Oracle', url: 'https://www.oracle.com/applications/fusion-ai/' },
     { title: 'Oracle AI Agents Help Finance Leaders Accelerate Business Insights and Boost Efficiency (press release, Oct 15, 2025)', publisher: 'Oracle', url: 'https://www.oracle.com/news/announcement/ai-world-oracle-ai-agents-help-finance-leaders-accelerate-business-insights-and-boost-efficiency-2025-10-15/' },
     { title: 'AI Agent Studio for Oracle Fusion Cloud Applications (What’s New 25C)', publisher: 'Oracle Cloud Applications Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/common/25c/common25c/25C-common-wn-f38824.htm' },
-    { title: 'How do I use AI Agent Studio?', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/fusion-ai/aiaas/get-started.html' },
+    { title: 'Get Started with AI Agent Studio (26D)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/fusion-ai/26d/aiaas/get-started.html' },
     { title: 'Financials What’s New 26D — Ledger Agentic Application', publisher: 'Oracle Cloud Applications Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51915.htm' },
     { title: 'Financials What’s New 26D — Payables Agent for invoice ingestion, compliance and control', publisher: 'Oracle Cloud Applications Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51289.htm' },
     { title: 'Financials What’s New 26D — Payables Period Close Workspace', publisher: 'Oracle Cloud Applications Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51249.htm' },

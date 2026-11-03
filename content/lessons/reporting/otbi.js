@@ -81,7 +81,7 @@ export default {
       type: 'callout',
       variant: 'info',
       title: 'Watch out for old blog posts',
-      html: `<p>Older articles mention a subject area called <em>Payables Invoices - Holds Real Time</em>. Oracle retired it years ago (in update 19B) and moved the hold information into <strong>Payables Invoices - Transactions Real Time</strong>. Always check subject area names in the Help Center for your current release.</p>`,
+      html: `<p>Older articles mention a subject area called <em>Payables Invoices - Holds Real Time</em>. Oracle retired it years ago and moved the hold information into <strong>Payables Invoices - Transactions Real Time</strong>. Always check subject area names in the Help Center for your current release.</p>`,
     },
     {
       type: 'callout',

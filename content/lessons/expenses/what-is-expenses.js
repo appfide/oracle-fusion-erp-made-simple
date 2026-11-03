@@ -104,9 +104,9 @@ export default {
       title: 'Phones, emails and AI helpers',
       html: `<p>Oracle offers several ways to capture expenses away from a desk. Which ones you have depends on your company’s setup and release:</p>
 <ul>
-<li><strong>Oracle Fusion Expenses mobile application</strong> – the classic app from the Apple App Store or Google Play, where you can create and submit reports with cash and card expenses and attach receipt photos or PDFs.</li>
+<li><strong>Oracle Fusion Expenses mobile application</strong> – the classic app from the Apple App Store or Google Play, where you can create and submit reports with cash and card expenses and attach receipt photos or PDFs. Oracle’s 26D What’s New says these iOS and Android apps will no longer be supported for Fusion from update 27B and recommends moving to the Expenses Agent.</li>
 <li><strong>Emailing receipts</strong> – your administrator can give you a special email address. You forward a receipt from your <em>work</em> email, and the system reads the merchant, date and amount and creates an expense item.</li>
-<li><strong>Expense Assistant</strong> – a skill of the Oracle Digital Assistant that lets you create and check expenses through a chat-style conversation (for example by SMS).</li>
+<li><strong>Expense Assistant</strong> – an older chat helper, built as a skill of the Oracle Digital Assistant, that lets you create and check expenses by SMS. The 26D What’s New says the Digital Assistant Fusion Apps templates are desupported on November 21, 2026, and recommends Oracle AI Agent Studio instead, so for Expenses the way forward is the Expenses Agent below.</li>
 <li><strong>Expenses Agent</strong> – Oracle’s newer AI agent behind what Oracle calls <em>Touchless Expenses</em>. It reads emailed receipts and receipt images, creates and completes expenses, matches them to corporate card charges, asks you for missing details by email, answers policy questions, and can submit compliant reports automatically. On phones it runs as a browser-based <strong>Progressive Web App (PWA)</strong> that you add to your home screen, not as an app-store download.</li>
 </ul>
 <p>Oracle adds Expenses Agent features almost every quarter (for example, help with itemization and attendees in 26D), so check the current What’s New before promising a feature to anyone.</p>`,
@@ -276,6 +276,7 @@ export default {
     { title: 'Using Expenses (26D) – Cash Advances', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fawde/cash-advances.html' },
     { title: 'Using Expenses (26D) – How can I enable the Oracle Fusion Expenses mobile application on a mobile device?', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fawde/how-can-i-enable-the-oracle-fusion-expenses-mobile-application.html' },
     { title: 'Using Expenses (26D) – How You Create Expense from Email Receipts', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fawde/how-you-create-expense-from-email-receipts.html' },
+    { title: 'Oracle Fusion Cloud Financials 26D What’s New – IMPORTANT Actions and Considerations', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-t78536.htm' },
     { title: 'Using Expenses (26D) – Overview of Expense Assistant', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fawde/overview-of-expense-assistant.html' },
     { title: 'Detailed Adoption Guidance: Expenses Agent – Overview of Expenses Agent', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/faeac/overview-of-expenses-agent.html' },
     { title: 'Detailed Adoption Guidance: Expenses Agent – Enable Mobile Experience', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/faeac/enable-mobile-experience.html' },

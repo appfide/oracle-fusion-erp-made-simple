@@ -26,7 +26,9 @@ jobs:
       - name: Validate lesson content
         run: node scripts/validate-content.mjs
       - name: Syntax-check app code
-        run: for f in assets/js/*.js sw.js; do node --check "$f"; done
+        run: for f in assets/js/*.js sw.js scripts/*.mjs; do node --check "$f"; done
+      - name: Test the search-page build
+        run: node scripts/build-seo.mjs _seo-test
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -37,10 +39,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # full history so sitemap lastmod dates come from git
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
       - name: Prepare site
         run: |
           mkdir -p _site
           cp -R index.html manifest.webmanifest sw.js .nojekyll assets content _site/
+          node scripts/build-seo.mjs _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

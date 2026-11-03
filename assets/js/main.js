@@ -3,7 +3,7 @@
  */
 import { h, icon, $ } from './dom.js';
 import { store } from './store.js';
-import { APP } from './config.js';
+import { APP, ORACLE } from './config.js';
 import {
   homeView, moduleView, lessonView, searchView, glossaryView, creditsView,
   settingsView, aboutView, certificateView, notFoundView, labsView, labView,
@@ -67,11 +67,12 @@ function buildShell() {
   const main = h('main', { id: 'main', tabindex: '-1' });
   const footer = h('footer', { class: 'footer' },
     h('div', { class: 'footer-inner' },
-      h('p', {}, h('strong', {}, APP.name), ` · v${APP.version} · Created by `, h('strong', {}, APP.author), ' · Free and open source.'),
+      h('p', {}, h('strong', {}, APP.name), ` · v${APP.version} · Created by `, h('a', { href: APP.authorUrl, target: '_blank', rel: 'noopener' }, h('strong', {}, APP.author)), ` · Matches Oracle release ${ORACLE.release} · Free and open source.`),
       h('p', { class: 'footer-links' },
         h('a', { href: APP.repo, target: '_blank', rel: 'noopener' }, 'GitHub'),
         h('a', { href: '#/about' }, 'About & privacy'),
         h('a', { href: '#/credits' }, 'Sources & credits'),
+        h('a', { href: 'learn/' }, 'All lessons (text pages)'),
         h('a', { href: '#/certificate' }, 'Certificate')),
       h('p', { class: 'muted small' },
         'Independent learning project — not affiliated with or endorsed by Oracle. Oracle and Java are registered trademarks of Oracle and/or its affiliates. ',
@@ -163,7 +164,9 @@ async function route() {
   // title + focus
   const h1 = main.querySelector('h1') || main.querySelector('.step-title');
   const section = path.split('/')[1];
-  document.title = `${h1 && path !== '/' ? `${h1.textContent} · ` : TITLES[section] ? `${TITLES[section]} · ` : ''}${APP.name}`;
+  document.title = path === '/' || path === ''
+    ? `${APP.name} · Learn Oracle Fusion Cloud ERP (${ORACLE.release}) free, step by step`
+    : `${h1 ? `${h1.textContent} · ` : TITLES[section] ? `${TITLES[section]} · ` : ''}${APP.name}`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   if (h1 && path !== '/' && path !== '/search') h1.focus({ preventScroll: true });
   updateTopProgress();

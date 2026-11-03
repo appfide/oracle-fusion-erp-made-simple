@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1040" cy="120" r="260" fill="#ffffff" opacity="0.05"/>
+  <circle cx="1100" cy="560" r="180" fill="#ffffff" opacity="0.05"/>
+  <g transform="translate(80 84)">
+    <rect width="112" height="112" rx="28" fill="#2357d8"/>
+    <circle cx="56" cy="58" r="33" fill="#ffd43b"/>
+    <circle cx="56" cy="58" r="26" fill="#fff3bf"/>
+    <g stroke="#f5b700" stroke-width="3.5" stroke-linecap="round"><path d="M56 34v48M32 58h48M39 41l34 34M73 41L39 75"/></g>
+    <path d="M66 23c9-8 20-7 20-7s-1 12-11 17c-5 3-10 2-10 2s-3-8 1-12z" fill="#40c057"/>
+  </g>
+  <text x="216" y="132" font-family="Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#ffffff">ERP Made Simple</text>
+  <text x="216" y="176" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#c7d2fe">Created by Appfide Private Limited</text>
+  <text x="80" y="318" font-family="Helvetica, Arial, sans-serif" font-size="68" font-weight="800" fill="#ffffff">Learn Oracle Fusion Cloud ERP</text>
+  <text x="80" y="398" font-family="Helvetica, Arial, sans-serif" font-size="68" font-weight="800" fill="#ffd43b">step by step — for free.</text>
+  <text x="80" y="470" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#e0e7ff">75 beginner lessons · Accounts Payable in depth · hands-on exercises</text>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">
+    <rect x="80" y="520" width="196" height="52" rx="26" fill="#ea580c"/><text x="178" y="554" text-anchor="middle" fill="#ffffff">Open source</text>
+    <rect x="292" y="520" width="196" height="52" rx="26" fill="#ffffff" opacity="0.15"/><text x="390" y="554" text-anchor="middle" fill="#ffffff">No sign-up</text>
+    <rect x="504" y="520" width="232" height="52" rx="26" fill="#ffffff" opacity="0.15"/><text x="620" y="554" text-anchor="middle" fill="#ffffff">No tracking</text>
+  </g>
+</svg>

@@ -136,7 +136,7 @@ export default {
 <li><strong>Correct Import Errors</strong> — the spreadsheet Ava used above to fix rejected FBDI rows.</li>
 </ul>
 <p>To use them, install the add-in from <kbd>Navigator</kbd> &gt; <kbd>Tools</kbd> &gt; <kbd>Download Desktop Integration</kbd> (a Windows installer; your administrator must allow it). Do not confuse this with <strong>Export to Excel</strong>, which only downloads data to look at.</p>
-<p>Oracle also offers the <strong>Oracle Visual Builder Add-in for Excel</strong>, which edits business data through Fusion’s REST services; 26D, for example, adds budget management with it for Budgetary Control.</p>`,
+<p>Oracle also offers the <strong>Oracle Visual Builder Add-in for Excel</strong>, which edits business data through Fusion’s REST services; 26D, for example, adds a tab to a U.S. Federal Financials <em>Manage in Excel</em> template so administrators can maintain budget-level control budgets.</p>`,
     },
     {
       type: 'text',
@@ -241,6 +241,7 @@ export default {
     { title: 'Set Up Desktop Integration for Excel', publisher: 'Oracle Help Center (Applications Common 26D)', url: 'https://docs.oracle.com/en/cloud/saas/applications-common/26d/oacpr/set-up-desktop-integration-for-excel.html' },
     { title: 'Considerations for Creating Invoices in a Spreadsheet', publisher: 'Oracle Help Center (Financials 26D)', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/fappp/considerations-for-creating-invoices-in-a-spreadsheet.html' },
     { title: 'How Charts of Accounts, Ledgers, Legal Entities, and Business Units Are Created Using Spreadsheets', publisher: 'Oracle Help Center (Financials 26D)', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/facsf/how-charts-of-accounts-ledgers-legal-entities-and-business-units.html' },
+    { title: 'Financials 26D What’s New – Budget-level control budget management using Oracle Visual Builder Add-in for Excel', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50778.htm' },
     { title: 'Oracle Visual Builder Add-in for Excel', publisher: 'Oracle', url: 'https://www.oracle.com/downloads/cloud/visual-builder-addin-downloads.html' },
   ],
 };

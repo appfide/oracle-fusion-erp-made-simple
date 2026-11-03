@@ -213,7 +213,7 @@ export default {
         ['P2P and O2C', 'Bank accounts, statements, reconciliation, cash position', '<strong>Cash Management</strong>'],
         ['Record-to-Report', 'Journals, periods and close, currencies, consolidation', '<strong>General Ledger</strong>'],
         ['Record-to-Report', 'Buying, depreciating and retiring long-lived assets', '<strong>Fixed Assets</strong>'],
-        ['Record-to-Report', 'OTBI, BI Publisher, financial reports, Smart View', '<strong>Reports and Analytics</strong>'],
+        ['Record-to-Report', 'OTBI, Oracle Analytics Publisher (formerly BI Publisher), financial reports, Smart View', '<strong>Reports and Analytics</strong>'],
         ['All three', 'Bulk loads, integrations, background jobs', '<strong>Data, Integrations and Automation</strong>'],
         ['All three', 'Tax, intercompany, budgetary control', '<strong>More Financial Tools</strong>'],
       ],
@@ -318,5 +318,6 @@ export default {
     { title: 'Using General Ledger (26D)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/faugl/index.html' },
     { title: 'Oracle Fusion Cloud Procurement', publisher: 'Oracle', url: 'https://www.oracle.com/erp/procurement/' },
     { title: 'Oracle Fusion Cloud Financial Management', publisher: 'Oracle', url: 'https://www.oracle.com/erp/financial-management/' },
+    { title: 'Overview of Analytics Publisher (Creating and Administering Analytics and Reports, 26D)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/applications-common/26d/faacc/overview-of-business-intelligence-publisher.html' },
   ],
 };

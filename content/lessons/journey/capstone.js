@@ -24,7 +24,7 @@ export default {
       steps: [
         { icon: '🧱', label: 'Jan', detail: 'Books set up and opened: ledgers, chart of accounts, roles.' },
         { icon: '🛒', label: 'Feb–Mar', detail: 'Buy lemons, match, pay suppliers.' },
-        { icon: '🔄', label: 'Apr', detail: 'First quarterly update tested and applied.' },
+        { icon: '🔄', label: 'Apr–May', detail: 'Quarterly update 26B prepared, tested and applied.' },
         { icon: '💰', label: 'May–Jun', detail: 'Bill cafes, collect cash, reconcile the bank.' },
         { icon: '🏭', label: 'Jul–Aug', detail: 'New stand (asset) and Noah’s business trip (expenses).' },
         { icon: '🇬🇧', label: 'Sep', detail: 'UK business, currencies, intercompany and tax.' },
@@ -106,8 +106,8 @@ export default {
     },
     {
       type: 'text',
-      heading: 'April: the first quarterly update',
-      html: `<p>In April, Sunny meets the rhythm of the cloud: a <strong>quarterly update</strong>. Jordan had read the Financials What’s New in March, sorted the Feature Summary by impact, and listed which features were opt-in. On the weekend after the first Friday, Sunny’s <strong>test</strong> environment was updated. For two weeks Ava, Priya, Omar and Mia ran their regression scripts: enter and pay an invoice, import and post a journal, apply a receipt, reconcile a statement, run the key reports. One custom OTBI analysis needed a small fix.</p>
+      heading: 'April–May: a quarterly update up close',
+      html: `<p>In spring, Sunny meets the rhythm of the cloud: a <strong>quarterly update</strong>. Sunny is on the February/May/August/November schedule, so update 26B arrives in May. In April Jordan read the Financials What’s New, sorted the Feature Summary by impact, and listed which features were opt-in. On the weekend after the first Friday of May, Sunny’s <strong>test</strong> environment was updated. For two weeks Ava, Priya, Omar and Mia ran their regression scripts: enter and pay an invoice, import and post a journal, apply a receipt, reconcile a statement, run the key reports. One custom OTBI analysis needed a small fix.</p>
 <p>On the weekend after the third Friday, <strong>production</strong> was updated. Monday was calm. Sam approved switching on one opt-in Payables feature after a short training session. The team wrote a one-page change log — a habit they keep every quarter.</p>`,
     },
     {
@@ -262,7 +262,7 @@ export default {
       rows: [
         ['Jan', 'Basics: enterprise structure, COA, security', 'Jordan, Priya', 'The whole Sunny COA'],
         ['Feb–Mar', 'Procurement, Payables, Payments', 'Leo, Noah, Ava, Mia', '5110, 5120, 2110, 1110'],
-        ['Apr', 'Quarterly update', 'Jordan and everyone', '—'],
+        ['Apr–May', 'Quarterly update (26B)', 'Jordan and everyone', '—'],
         ['May', 'Receivables, Tax', 'Omar', '1210, 4110, 2210'],
         ['Jun', 'Cash Management', 'Mia', '1110, 7110'],
         ['Jul', 'Procurement, Budgetary Control, Payables, Fixed Assets', 'Leo, Ava, asset accountant', '1510, 1590, 6140'],

@@ -197,7 +197,7 @@ export default {
       type: 'callout',
       variant: 'real',
       title: 'Real-world tip: tolerances are a policy decision',
-      html: `<p>Setting tolerances is not just a technical task — it’s a business decision about risk. Many companies start strict (for example 0% for quantity and 1–5% for price), study which holds happen most, then fine-tune per supplier. Oracle’s newer Payables Agent features can even recommend changes when the same hold is repeatedly released without any change to the invoice.</p>`,
+      html: `<p>Setting tolerances is not just a technical task — it’s a business decision about risk. Many companies start strict (for example 0% for quantity and 1–5% for price), study which holds happen most, then fine-tune per supplier. Oracle’s newer Payables Agent features can even recommend changes when the same hold is repeatedly released without any change to the invoice. In release 26D, the Payables Agent also adds <strong>Matching Controls</strong>: more specific tolerance rules by business unit, purchasing category, legal entity or currency. Existing supplier-site and business unit tolerances keep working.</p>`,
     },
     {
       type: 'terms',

@@ -162,7 +162,7 @@ export default {
       type: 'callout',
       variant: 'tip',
       title: 'New AI helpers (2026)',
-      html: `<p>Oracle’s recent updates added conversational assistants for Assets: a <strong>Fixed Asset Inquiry Assistant</strong> (26C) to look up asset details and current period activity, and in 26D an <strong>Asset Additions Assistant</strong> and a <strong>Depreciation Expense Projection Assistant</strong>. They sit on top of the same books, categories and processes you will learn in this module.</p>`,
+      html: `<p>Oracle’s recent updates added conversational assistants for Assets: a <strong>Fixed Asset Inquiry Assistant</strong> (26C) to look up asset details and current period activity, a <strong>Retirement Assistant</strong> (26C), and in 26D an <strong>Asset Additions Assistant</strong>, a <strong>Depreciation Expense Projection Assistant</strong>, an <strong>Asset Acquisition Cost Analyst</strong> and a <strong>Capital Expenditure Planning Analyst</strong>. People open them from the AI Agents page, once their company has set them up. They sit on top of the same books, categories and processes you will learn in this module.</p>`,
     },
     {
       type: 'callout',
@@ -224,6 +224,10 @@ export default {
     { title: 'Asset Accountant (Job Role)', publisher: 'Oracle Help Center', url: 'https://docs.oracle.com/en/cloud/saas/financials/26d/oafrm/Asset_Accountant_job_roles.html' },
     { title: 'Financials 26C What’s New — Fixed Asset Inquiry Assistant', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/fins26c/26C-fin-wn-f49378.htm' },
     { title: 'Financials 26D What’s New — Asset Additions Assistant', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50889.htm' },
+    { title: 'Financials 26C What’s New — Retirement Assistant', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/fins26c/26C-fin-wn-f49559.htm' },
+    { title: 'Financials 26D What’s New — Depreciation Expense Projection Assistant', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50895.htm' },
+    { title: 'Financials 26D What’s New — Asset Acquisition Cost Analyst', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50899.htm' },
+    { title: 'Financials 26D What’s New — Capital Expenditure Planning Analyst', publisher: 'Oracle Cloud Readiness', url: 'https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f50920.htm' },
     { title: 'Principles of Accounting, Volume 1 — Long-Term Assets (Chapter 11)', publisher: 'OpenStax', url: 'https://openstax.org/books/principles-financial-accounting/pages/11-why-it-matters' },
   ],
 };

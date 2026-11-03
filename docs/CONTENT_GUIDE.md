@@ -26,6 +26,8 @@ This is an open-source educational project that credits its sources. Accuracy is
 - The user interface changes every quarter, and Oracle is moving pages to the **Redwood** design. When you describe click paths, add a note that labels may differ slightly by release and by how the company configured its system.
 - **Do not copy text** from Oracle documentation. Read it, understand it, and **explain it in your own simple words**. Short quotations of names/labels are fine.
 - List every source you used in the lesson's `sources` array, with a real, working URL (https only). Prefer the most specific page (a guide chapter/topic) over a generic home page.
+- **Target release:** lessons match the Oracle update named in `ORACLE.release` in `assets/js/config.js` (currently **26D**). Link to that release's Help Center books (`.../financials/26d/...`). When you say a feature arrived in a specific update, name it ("added in 26B").
+- **Quarterly refresh:** when Oracle publishes a new update, read the Financials, Procurement and Common Technologies *What's New* (especially *Replaced or Removed Features*), fix affected lessons, move source links to the new release, then update `ORACLE` in `config.js` and bump `VERSION` in `sw.js`.
 - No screenshots or images from Oracle (copyright). Use our built-in blocks (slides, flows, tables, journals) and emoji instead.
 
 ## 3. Our story world (use it everywhere)
