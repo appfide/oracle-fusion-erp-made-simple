@@ -97,7 +97,7 @@ export function homeView() {
     h('ol', { class: 'path-steps' },
       h('li', {}, h('span', { class: 'path-n' }, '1'), h('div', {}, h('strong', {}, 'The Basics'), h('p', {}, 'What an ERP is, money words, moving around the screens, and the building blocks.'))),
       h('li', {}, h('span', { class: 'path-n' }, '2'), h('div', {}, h('strong', {}, 'Accounts Payable'), h('p', {}, 'Suppliers, invoices, matching, holds, approvals, payments and month-end — in depth.'))),
-      h('li', {}, h('span', { class: 'path-n' }, '3'), h('div', {}, h('strong', {}, 'Everything else'), h('p', {}, 'General Ledger, Receivables, Cash, Assets, Expenses, Procurement, Reporting, Data, AI and more.')))));
+      h('li', {}, h('span', { class: 'path-n' }, '3'), h('div', {}, h('strong', {}, 'Everything else'), h('p', {}, 'Following the money: Procurement, Expenses, Receivables, Cash, Assets, then the General Ledger where it all comes together. Then reports, data and AI.')))));
 
   const grid = h('section', { class: 'modules', 'aria-labelledby': 'mods-h' },
     h('h2', { id: 'mods-h' }, 'All modules'),
@@ -631,7 +631,7 @@ export function aboutView() {
       h('ol', {},
         h('li', {}, 'Begin with Module 1, The Basics. It gives you the words everything else depends on.'),
         h('li', {}, 'Then do Module 2, Accounts Payable — our deepest module.'),
-        h('li', {}, 'Then explore the other modules in any order you like.'),
+        h('li', {}, 'Then carry on in order. The next modules follow the money: buying and paying people back (Procurement, Expenses), money coming in (Receivables), the bank (Cash Management), things we keep (Assets), and finally the General Ledger, where every module sends its journals and the month is closed. You can jump around, but this order means each lesson only uses ideas you have already met.'),
         h('li', {}, 'Each lesson is split into short steps, like a codelab. Click through the slides, try the hands-on exercises, and take the quiz. Passing the quiz marks the lesson complete.'),
         h('li', {}, 'Use the Practice Lab any time to play with simulators: matching invoices, payment terms, depreciation, journals, account combinations and currencies.')),
       h('h2', {}, 'Privacy: we collect nothing'),

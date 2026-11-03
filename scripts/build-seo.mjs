@@ -308,7 +308,7 @@ ${curriculum.map((m, mi) => `<section><h2><a href="${m.id}/">${esc(m.icon)} ${mi
   await mkdir(path.join(OUT, 'learn'), { recursive: true });
   await writeFile(path.join(OUT, 'learn', 'index.html'), page({
     title: `All lessons · Learn Oracle Fusion Cloud ERP ${ORACLE.release} free · ${APP.name}`,
-    description: clip(`All ${flat.length} free beginner lessons on Oracle Fusion Cloud ERP (release ${ORACLE.release}): basics, Accounts Payable, General Ledger, Receivables, Cash, Assets, Expenses, Procurement and reporting. Created by ${APP.author}.`),
+    description: clip(`All ${flat.length} free beginner lessons on Oracle Fusion Cloud ERP (release ${ORACLE.release}): basics, Accounts Payable, Procurement, Expenses, Receivables, Cash, Assets, General Ledger and reporting. Created by ${APP.author}.`),
     canonical: url, depth: 1, body, jsonld, type: 'website',
   }));
   urls.splice(1, 0, { loc: url, lastmod: TODAY, priority: '0.9' });

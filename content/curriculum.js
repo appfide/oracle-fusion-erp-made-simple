@@ -7,6 +7,12 @@
  *
  * Learners are encouraged (not forced) to follow this order:
  * 1. The Basics  ->  2. Accounts Payable  ->  3. Everything else.
+ *
+ * "Everything else" follows the money, the way a beginner meets it at work:
+ * buying (Procurement) and paying people back (Expenses) sit next to Payables;
+ * then money coming in (Receivables) and the bank (Cash Management); then the
+ * things we keep (Assets); then the General Ledger, where every module's
+ * journals land and the month is closed; then reports, data and extras.
  */
 
 export const curriculum = [
@@ -58,23 +64,30 @@ export const curriculum = [
     ],
   },
   {
-    id: 'gl',
-    title: 'General Ledger (The Master Book)',
-    short: 'General Ledger',
-    icon: '📒',
-    color: '#2b8a3e',
-    description:
-      'The master book of the company: chart of accounts in depth, journals, allocations, periods, currencies, consolidation and financial reporting.',
+    id: 'procurement',
+    title: 'Procurement (Buying Things)',
+    short: 'Procurement',
+    icon: '🛒',
+    color: '#1971c2',
+    description: 'The buying side that feeds Payables: requisitions, purchase orders and receiving.',
     lessons: [
-      { slug: 'what-is-gl', title: 'What Is the General Ledger?' },
-      { slug: 'coa-deep-dive', title: 'Chart of Accounts Deep Dive' },
-      { slug: 'journals', title: 'Journals: Writing in the Master Book' },
-      { slug: 'special-journals', title: 'Special Journals: Recurring, Reversing and Allocations' },
-      { slug: 'periods-and-close', title: 'Accounting Periods and Closing the Month' },
-      { slug: 'multiple-currencies', title: 'Working With Many Currencies' },
-      { slug: 'ledger-sets-and-consolidation', title: 'Ledger Sets, Secondary Ledgers and Consolidation' },
-      { slug: 'gl-inquiry-and-reporting', title: 'Looking at Balances and Financial Statements' },
-      { slug: 'gl-story', title: 'Practice Story: Sunny Lemonade Closes the Month' },
+      { slug: 'procurement-overview', title: 'Procurement for Finance People' },
+      { slug: 'requisitions-and-pos', title: 'Requisitions and Purchase Orders' },
+      { slug: 'receiving', title: 'Receiving: Did the Box Arrive?' },
+    ],
+  },
+  {
+    id: 'expenses',
+    title: 'Expenses (Paying People Back)',
+    short: 'Expenses',
+    icon: '🧾',
+    color: '#d9480f',
+    description: 'How employees get paid back for things they buy for work.',
+    lessons: [
+      { slug: 'what-is-expenses', title: 'What Is Expenses?' },
+      { slug: 'expense-reports', title: 'Creating Expense Reports' },
+      { slug: 'policies-and-cards', title: 'Expense Policies and Corporate Cards' },
+      { slug: 'expense-approval-and-payment', title: 'Approval, Audit and Getting Paid Back' },
     ],
   },
   {
@@ -128,30 +141,23 @@ export const curriculum = [
     ],
   },
   {
-    id: 'expenses',
-    title: 'Expenses (Paying People Back)',
-    short: 'Expenses',
-    icon: '🧾',
-    color: '#d9480f',
-    description: 'How employees get paid back for things they buy for work.',
+    id: 'gl',
+    title: 'General Ledger (The Master Book)',
+    short: 'General Ledger',
+    icon: '📒',
+    color: '#2b8a3e',
+    description:
+      'The master book of the company: chart of accounts in depth, journals, allocations, periods, currencies, consolidation and financial reporting.',
     lessons: [
-      { slug: 'what-is-expenses', title: 'What Is Expenses?' },
-      { slug: 'expense-reports', title: 'Creating Expense Reports' },
-      { slug: 'policies-and-cards', title: 'Expense Policies and Corporate Cards' },
-      { slug: 'expense-approval-and-payment', title: 'Approval, Audit and Getting Paid Back' },
-    ],
-  },
-  {
-    id: 'procurement',
-    title: 'Procurement (Buying Things)',
-    short: 'Procurement',
-    icon: '🛒',
-    color: '#1971c2',
-    description: 'The buying side that feeds Payables: requisitions, purchase orders and receiving.',
-    lessons: [
-      { slug: 'procurement-overview', title: 'Procurement for Finance People' },
-      { slug: 'requisitions-and-pos', title: 'Requisitions and Purchase Orders' },
-      { slug: 'receiving', title: 'Receiving: Did the Box Arrive?' },
+      { slug: 'what-is-gl', title: 'What Is the General Ledger?' },
+      { slug: 'coa-deep-dive', title: 'Chart of Accounts Deep Dive' },
+      { slug: 'journals', title: 'Journals: Writing in the Master Book' },
+      { slug: 'special-journals', title: 'Special Journals: Recurring, Reversing and Allocations' },
+      { slug: 'periods-and-close', title: 'Accounting Periods and Closing the Month' },
+      { slug: 'multiple-currencies', title: 'Working With Many Currencies' },
+      { slug: 'ledger-sets-and-consolidation', title: 'Ledger Sets, Secondary Ledgers and Consolidation' },
+      { slug: 'gl-inquiry-and-reporting', title: 'Looking at Balances and Financial Statements' },
+      { slug: 'gl-story', title: 'Practice Story: Sunny Lemonade Closes the Month' },
     ],
   },
   {

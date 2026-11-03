@@ -13,7 +13,7 @@ A free, open-source web app that teaches **Oracle Fusion Cloud ERP** step by ste
 
 - 🧱 **Basics first** — what an ERP is, money words (debits and credits), moving around the screens, enterprise structure, ledgers, setup and security.
 - 💸 **Then Accounts Payable in depth** — suppliers, invoices, matching, holds, approvals, accounting, payments, prepayments, tax, month-end and reports.
-- 🧩 **Then everything else** — General Ledger, Receivables, Cash Management, Fixed Assets, Expenses, Procurement, Reporting, data and integrations, Tax, Intercompany, Budgetary Control, quarterly updates and AI.
+- 🧩 **Then everything else, following the money** — Procurement and Expenses (next to Payables), Receivables, Cash Management, Fixed Assets, then the General Ledger where every module's journals land and the month is closed. Then Reporting, data and integrations, Tax, Intercompany, Budgetary Control, quarterly updates and AI. Each lesson only uses ideas taught before it.
 - 🎞️ **Slides, flow diagrams, worked examples, journal entries and quizzes** in every lesson, all following one story company: *Sunny Lemonade Co.*
 - 📚 **Every lesson credits its sources** (mainly the official Oracle Help Center). All sources are listed on the in-app *Sources & Credits* page.
 
