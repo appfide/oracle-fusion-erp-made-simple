@@ -1,0 +1,13 @@
+# Code owners review every pull request (required by the main-branch ruleset).
+# Maintainers: see GOVERNANCE.md.
+*                       @dhipin
+
+# Licensing, security and governance files — steward approval.
+/LICENSE                @dhipin
+/LICENSE-CONTENT.md     @dhipin
+/LICENSES/              @dhipin
+/REUSE.toml             @dhipin
+/NOTICE                 @dhipin
+/SECURITY.md            @dhipin
+/GOVERNANCE.md          @dhipin
+/.github/               @dhipin

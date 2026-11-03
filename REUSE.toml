@@ -1,0 +1,24 @@
+# Machine-readable licensing for every file (REUSE 3.3 / SPDX). Checked in CI by `reuse lint`.
+# Human-readable summary: LICENSE (MIT, code), LICENSE-CONTENT.md (CC BY-SA 4.0, lessons and docs), NOTICE.
+version = 1
+SPDX-PackageName = "ERP Made Simple"
+SPDX-PackageSupplier = "Appfide Private Limited <code@appfide.com>"
+SPDX-PackageDownloadLocation = "https://github.com/appfide/oracle-fusion-erp-made-simple"
+
+# Default: application code, tooling, configuration and images are MIT.
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Appfide Private Limited and ERP Made Simple contributors"
+SPDX-License-Identifier = "MIT"
+
+# Lesson content and documentation are CC BY-SA 4.0.
+[[annotations]]
+path = ["content/**", "docs/**"]
+SPDX-FileCopyrightText = "2026 Appfide Private Limited and ERP Made Simple contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# The Code of Conduct is the Contributor Covenant 2.1, used under CC BY 4.0.
+[[annotations]]
+path = "CODE_OF_CONDUCT.md"
+SPDX-FileCopyrightText = "2014-2021 Coraline Ada Ehmke and Contributor Covenant contributors"
+SPDX-License-Identifier = "CC-BY-4.0"

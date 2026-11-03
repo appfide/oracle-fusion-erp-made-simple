@@ -1,0 +1,46 @@
+name: Compliance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reuse:
+    name: REUSE license compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: fsfe/reuse-action@676e2d560c9a403aa252096d99fcab3e1132b0f5 # v6.0.0
+
+  dco:
+    name: DCO sign-off
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Every commit has a Signed-off-by line from its author
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          fail=0
+          for c in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            email=$(git show -s --format='%ae' "$c")
+            if git show -s --format='%B' "$c" | grep -qiE "^Signed-off-by: .+ <${email}>$"; then
+              echo "ok   $c"
+            else
+              echo "::error::Commit $c is missing 'Signed-off-by: <name> <${email}>'. Use 'git commit -s' (see CONTRIBUTING.md)."
+              fail=1
+            fi
+          done
+          exit $fail

@@ -3,7 +3,9 @@
 All lesson content in [`content/`](content/) and documentation in [`docs/`](docs/) is licensed under the
 **Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**.
 
-Full legal text: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+Full legal text: [LICENSES/CC-BY-SA-4.0.txt](LICENSES/CC-BY-SA-4.0.txt) (also at https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+Application code is licensed separately under the [MIT License](LICENSE). The license of every file is declared in
+[`REUSE.toml`](REUSE.toml).
 
 You are free to **share** (copy and redistribute) and **adapt** (remix, transform, build upon) the material
 for any purpose, even commercially, under these terms:

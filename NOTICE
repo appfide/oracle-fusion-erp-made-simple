@@ -1,0 +1,28 @@
+ERP Made Simple — Oracle Fusion Cloud ERP for absolute beginners
+Copyright 2026 Appfide Private Limited and ERP Made Simple contributors
+https://github.com/appfide/oracle-fusion-erp-made-simple
+
+LICENSING
+  - Application code, tooling and configuration: MIT (LICENSE, LICENSES/MIT.txt)
+  - Lesson content (content/) and documentation (docs/): CC BY-SA 4.0
+    (LICENSE-CONTENT.md, LICENSES/CC-BY-SA-4.0.txt)
+  - CODE_OF_CONDUCT.md: Contributor Covenant 2.1, CC BY 4.0 (LICENSES/CC-BY-4.0.txt)
+  The license of every file is declared in REUSE.toml (REUSE / SPDX format).
+
+THIRD-PARTY SOFTWARE
+  None. The published site has no runtime dependencies and loads no third-party
+  scripts, fonts, styles or trackers. Build and CI tooling (Node.js, GitHub
+  Actions) is used only to validate and publish, and is not redistributed.
+
+THIRD-PARTY SOURCES
+  Lessons are original explanations written in plain language. They cite, and link
+  to, publicly available sources — mainly the Oracle Help Center (docs.oracle.com)
+  and oracle.com. Those sources remain the property of their owners, are not
+  reproduced here, and are not covered by this project's licenses. Every lesson
+  lists its sources; all are collected on the in-app "Sources & Credits" page.
+
+TRADEMARKS
+  Oracle, Java, MySQL and NetSuite are registered trademarks of Oracle and/or its
+  affiliates. This project is independent and is not affiliated with, endorsed by,
+  or sponsored by Oracle. Other names may be trademarks of their respective owners.
+  Use of these names is for identification only.

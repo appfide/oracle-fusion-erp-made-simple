@@ -1,5 +1,11 @@
 # 🍋 ERP Made Simple — Oracle Fusion Cloud ERP for absolute beginners
 
+[![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Content license: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT.md)
+[![Validate and deploy](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/pages.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/pages.yml)
+[![Compliance](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/appfide/oracle-fusion-erp-made-simple/badge)](https://scorecard.dev/viewer/?uri=github.com/appfide/oracle-fusion-erp-made-simple)
+
 Created by **[Appfide Private Limited](https://appfide.com)**.
 
 > ✅ **Matches Oracle Fusion Cloud Applications update 26D** (checked November 2026). Oracle rolls 26D out to
@@ -70,8 +76,18 @@ search-friendly lesson pages and sitemap (set `site` in `assets/js/config.js` to
 
 ## License
 
-- App code: [MIT](LICENSE)
-- Lesson content and docs: [CC BY-SA 4.0](LICENSE-CONTENT.md)
+- App code, tooling and configuration: [MIT](LICENSE)
+- Lesson content (`content/`) and docs (`docs/`): [CC BY-SA 4.0](LICENSE-CONTENT.md)
+- Code of Conduct: Contributor Covenant 2.1, CC BY 4.0
+
+Every file's license is declared in machine-readable form in [`REUSE.toml`](REUSE.toml) (REUSE / SPDX), with full
+license texts in [`LICENSES/`](LICENSES/), and checked in CI. Attribution and trademark notices are in [`NOTICE`](NOTICE).
+The site has no third-party dependencies.
+
+## Project policies
+
+[Contributing](CONTRIBUTING.md) (with DCO sign-off) · [Code of Conduct](CODE_OF_CONDUCT.md) ·
+[Security policy](SECURITY.md) · [Support](SUPPORT.md) · [Governance](GOVERNANCE.md) · [Changelog](CHANGELOG.md)
 
 ## Disclaimer
 

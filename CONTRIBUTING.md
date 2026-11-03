@@ -28,7 +28,32 @@ Thank you for helping people learn! 🍋
 
 1. Fork the repository and create a branch.
 2. Make your change and run the validator.
-3. Open a pull request using the template. Small, focused PRs are reviewed fastest.
+3. Commit with a sign-off: `git commit -s` (see below).
+4. Open a pull request using the template. Small, focused PRs are reviewed fastest.
 
-By contributing you agree that your code is released under the MIT License and your content under CC BY-SA 4.0.
-Please follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+Every change to `main` goes through a pull request. CI must pass (content validation, REUSE license check, DCO
+sign-off) and a code owner must approve it. See [GOVERNANCE.md](GOVERNANCE.md).
+
+## Developer Certificate of Origin (DCO)
+
+We use the [Developer Certificate of Origin 1.1](https://developercertificate.org/) instead of a CLA. By adding a
+`Signed-off-by` line to each commit you certify that you wrote the change, or otherwise have the right to submit it
+under this project's licenses. Git adds the line for you:
+
+```bash
+git commit -s -m "Explain prepayments more simply"
+# adds:  Signed-off-by: Your Name <you@example.com>
+```
+
+The name and email must match the commit author. Forgot? Run `git commit --amend -s` (one commit) or
+`git rebase --signoff main` (several), then force-push your branch. Edits made in the GitHub web editor are signed
+off automatically.
+
+## Licensing of contributions
+
+Inbound = outbound: code you contribute is released under the [MIT License](LICENSE); lesson content (`content/`)
+and documentation (`docs/`) under [CC BY-SA 4.0](LICENSE-CONTENT.md). The license of every file is declared in
+[`REUSE.toml`](REUSE.toml) and checked in CI. Do not add third-party code, fonts, images or text unless its license
+is compatible and you add it to `REUSE.toml` and [`NOTICE`](NOTICE).
+
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately — see [SECURITY.md](SECURITY.md).

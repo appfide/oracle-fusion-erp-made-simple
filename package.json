@@ -1,15 +1,26 @@
 {
   "name": "oracle-fusion-erp-made-simple",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Free, open-source, beginner-friendly guide to Oracle Fusion Cloud ERP. Static web app; progress saved in the browser only.",
   "type": "module",
-  "license": "MIT",
-  "author": "Appfide Private Limited",
+  "license": "MIT AND CC-BY-SA-4.0",
+  "author": "Appfide Private Limited <code@appfide.com> (https://appfide.com)",
+  "homepage": "https://appfide.github.io/oracle-fusion-erp-made-simple/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appfide/oracle-fusion-erp-made-simple.git"
+  },
+  "bugs": {
+    "url": "https://github.com/appfide/oracle-fusion-erp-made-simple/issues"
+  },
   "scripts": {
     "start": "python3 -m http.server 8080",
     "validate": "node scripts/validate-content.mjs",
-    "check-links": "node scripts/check-links.mjs"
+    "check-links": "node scripts/check-links.mjs",
+    "lint:license": "pipx run reuse lint"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }
