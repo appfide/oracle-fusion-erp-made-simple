@@ -2,7 +2,7 @@
  * Privacy, security and packaging guardrails. These read the source files and fail a
  * pull request that would weaken the site's promises: strict CSP, no third-party
  * requests, no tracking, no dangerous code patterns, a working offline cache.
- *   node --test tests/
+ *   npm test
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

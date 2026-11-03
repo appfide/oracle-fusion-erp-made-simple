@@ -27,7 +27,7 @@ Thank you for helping people learn! 🍋
 ## Pull requests
 
 1. Fork the repository and create a branch.
-2. Make your change, then run `node scripts/validate-content.mjs` and `node --test tests/` (or `npm test`).
+2. Make your change, then run `node scripts/validate-content.mjs` and `npm test`.
    The browser tests need Google Chrome or Chromium installed; set `CHROME_PATH` if it is somewhere unusual.
 3. Commit with a sign-off: `git commit -s` (see below).
 4. Open a pull request using the template. Small, focused PRs are reviewed fastest.

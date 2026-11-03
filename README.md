@@ -64,7 +64,7 @@ lesson or translate. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_G
 
 ```bash
 node scripts/validate-content.mjs   # lesson structure and accuracy rules
-node --test tests/                  # privacy/security guardrails, storage, and every page in headless Chrome
+npm test                            # privacy/security guardrails, storage, and every page in headless Chrome
 ```
 
 Every pull request runs both, plus a license (REUSE) check, DCO sign-off and CodeQL. None of them need `npm install`.

@@ -35,7 +35,7 @@ jobs:
           CI: 'true'
           CHROME_PATH: /usr/bin/google-chrome
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: node --test tests/
+        run: node --test tests/*.test.mjs
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
