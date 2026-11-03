@@ -4,7 +4,7 @@ export const APP = {
   tagline: 'Oracle Fusion Cloud ERP for absolute beginners',
   repo: 'https://github.com/appfide/oracle-fusion-erp-made-simple',
   site: 'https://appfide.github.io/oracle-fusion-erp-made-simple/',
-  version: '1.1.1',
+  version: '1.2.0',
   author: 'Appfide Private Limited',
   authorUrl: 'https://appfide.com',
 };

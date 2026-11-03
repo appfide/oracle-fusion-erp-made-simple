@@ -4,6 +4,8 @@
 [![Content license: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT.md)
 [![Validate and deploy](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/pages.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/pages.yml)
 [![Compliance](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml)
+[![CodeQL](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/github-code-scanning/codeql)
+[![Dependabot auto-merge](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/appfide/oracle-fusion-erp-made-simple/badge)](https://scorecard.dev/viewer/?uri=github.com/appfide/oracle-fusion-erp-made-simple)
 
 Created by **[Appfide Private Limited](https://appfide.com)**.
@@ -64,10 +66,34 @@ lesson or translate. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_G
 
 ```bash
 node scripts/validate-content.mjs   # lesson structure and accuracy rules
-npm test                            # privacy/security guardrails, storage, and every page in headless Chrome
+npm test                            # the full test suite (about 30 seconds, needs Chrome or Chromium)
+node --test tests/journeys.test.mjs # or one area at a time
+FUZZ_SEED=1234 npm test             # repeat a fuzz run exactly (the seed is printed in each fuzz test's name)
 ```
 
 Every pull request runs both, plus a license (REUSE) check, DCO sign-off and CodeQL. None of them need `npm install`.
+
+### Automated checks
+
+| Check | When | What it guarantees |
+| --- | --- | --- |
+| [Validate and deploy]({R}/actions/workflows/pages.yml) | every pull request and push to `main` | content rules, the test suite below, then deploy to GitHub Pages |
+| [Compliance]({R}/actions/workflows/compliance.yml) | every pull request and push to `main` | every file licensed (REUSE/SPDX); every commit signed off (DCO) |
+| [CodeQL]({R}/actions/workflows/github-code-scanning/codeql) | every pull request, push and weekly | static security analysis of the JavaScript and workflows |
+| [OpenSSF Scorecard]({R}/actions/workflows/scorecard.yml) | weekly and on push to `main` | supply-chain security score |
+| [Dependabot auto-merge]({R}/actions/workflows/dependabot-auto-merge.yml) | Dependabot pull requests | pinned actions kept current, merged only after every check passes |
+
+The test suite (`tests/`, Node's built-in test runner plus headless Chrome, no packages):
+
+| File | Covers |
+| --- | --- |
+| `static.test.mjs` | Content-Security-Policy, no third-party requests or trackers, storage rules, no `eval`, raw-HTML allow-list, offline cache, versions, secrets |
+| `store.test.mjs`, `fuzz.test.mjs` | progress storage; 5,000 random and hostile backups per run (prototype pollution, wrong types, huge values) |
+| `browser.test.mjs` | every page, module, lesson and lab rendered with no errors; every in-app link; hostile URLs; 150 corrupted saved states; the HTML sanitizer against XSS payloads and 3,000 fuzzed documents |
+| `journeys.test.mjs` | what learners do: every quiz and every hands-on exercise solved with its answer key, completing lessons, step-by-step navigation, settings, search, glossary, export/import/reset, certificate, every lab with extreme values |
+| `a11y.test.mjs` | accessibility on every page (headings, names, labels, ARIA, focus, 24px targets), WCAG AA contrast in light and dark, phone width, keyboard use, offline mode |
+| `seo.test.mjs` | the search-engine pages: titles, descriptions, canonical URLs, structured data, sitemap, robots.txt, links, CSP |
+| `repo.test.mjs` | CI hardening (pinned actions, least privilege, no script injection), policy files, curriculum integrity, every script parses |
 
 ## Hosting
 

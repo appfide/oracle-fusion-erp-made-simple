@@ -55,7 +55,7 @@ function bar(pct, color) {
 
 function statusOf(id) {
   if (store.isComplete(id)) return { cls: 'done', label: 'Completed', glyph: '✓' };
-  if (store.state.visited[id]) return { cls: 'started', label: 'Started', glyph: '•' };
+  if (Object.hasOwn(store.state.visited, id)) return { cls: 'started', label: 'Started', glyph: '•' };
   return { cls: 'todo', label: 'Not started', glyph: '' };
 }
 
@@ -702,7 +702,7 @@ export function labsView() {
 }
 
 export function labView(tool) {
-  const lab = LABS[tool];
+  const lab = Object.hasOwn(LABS, tool) ? LABS[tool] : null;
   if (!lab) return notFoundView();
   return h('div', { class: 'narrow-wide' },
     h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, link('#/lab', {}, 'Practice Lab'), ' / ', h('span', { 'aria-current': 'page' }, lab.title)),

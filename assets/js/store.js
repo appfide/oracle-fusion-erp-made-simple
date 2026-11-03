@@ -46,18 +46,49 @@ function readRaw() {
   }
 }
 
+/** Allowed values for each setting; anything else (old or hand-edited backups) falls back to the default. */
+const SETTING_RULES = {
+  theme: (v) => ['system', 'light', 'dark'].includes(v),
+  textSize: (v) => ['s', 'm', 'l', 'xl'].includes(v),
+  reduceMotion: (v) => typeof v === 'boolean',
+  autoComplete: (v) => typeof v === 'boolean',
+  passMark: (v) => Number.isInteger(v) && v >= 1 && v <= 100,
+  layout: (v) => ['steps', 'page'].includes(v),
+};
+
+const isRecord = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
+const count = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : 0);
+/** Copy own, non-dangerous keys only (backups are untrusted input). */
+const record = (v) => {
+  const out = {};
+  if (!isRecord(v)) return out;
+  for (const k of Object.keys(v)) if (k !== '__proto__' && k !== 'constructor' && k !== 'prototype') out[k] = v[k];
+  return out;
+};
+
+/** { id: ISO date } maps: keep entries whose value is a date string. */
+const dates = (v) => Object.fromEntries(Object.entries(record(v)).filter(([, d]) => typeof d === 'string' && d && !Number.isNaN(Date.parse(d))));
+
 function normalize(data) {
   const base = fresh();
-  if (!data || typeof data !== 'object') return base;
+  if (!isRecord(data)) return base;
+  const settings = { ...DEFAULT_SETTINGS };
+  const saved = record(data.settings);
+  for (const [k, ok] of Object.entries(SETTING_RULES)) if (ok(saved[k])) settings[k] = saved[k];
   return {
     ...base,
-    ...data,
-    completed: { ...(data.completed || {}) },
-    quizzes: { ...(data.quizzes || {}) },
-    visited: { ...(data.visited || {}) },
-    exercises: { ...(data.exercises || {}) },
-    steps: { ...(data.steps || {}) },
-    settings: { ...DEFAULT_SETTINGS, ...(data.settings || {}) },
+    completed: dates(data.completed),
+    quizzes: Object.fromEntries(Object.entries(record(data.quizzes)).filter(([, q]) => isRecord(q)).map(([id, q]) => [id, {
+      best: count(q.best), last: count(q.last), total: count(q.total), attempts: count(q.attempts) || 1,
+      at: typeof q.at === 'string' ? q.at : '',
+    }])),
+    visited: dates(data.visited),
+    exercises: dates(data.exercises),
+    steps: Object.fromEntries(Object.entries(record(data.steps)).filter(([, n]) => Number.isInteger(n) && n >= 0)),
+    last: typeof data.last === 'string' ? data.last : null,
+    certificateName: typeof data.certificateName === 'string' ? data.certificateName.slice(0, 80) : '',
+    settings,
+    startedAt: typeof data.startedAt === 'string' ? data.startedAt : base.startedAt,
     schema: SCHEMA,
   };
 }
@@ -91,11 +122,11 @@ export const store = {
 
   onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
 
-  isComplete(id) { return Boolean(load().completed[id]); },
+  isComplete(id) { return Object.hasOwn(load().completed, id); },
 
   setComplete(id, done = true) {
     const s = load();
-    if (done) s.completed[id] = s.completed[id] || new Date().toISOString();
+    if (done) s.completed[id] = Object.hasOwn(s.completed, id) ? s.completed[id] : new Date().toISOString();
     else delete s.completed[id];
     save();
   },
@@ -107,14 +138,14 @@ export const store = {
     save();
   },
 
-  isExerciseDone(key) { return Boolean(load().exercises[key]); },
+  isExerciseDone(key) { return Object.hasOwn(load().exercises, key); },
 
   setExerciseDone(key) {
     const s = load();
-    if (!s.exercises[key]) { s.exercises[key] = new Date().toISOString(); save(); }
+    if (!Object.hasOwn(s.exercises, key)) { s.exercises[key] = new Date().toISOString(); save(); }
   },
 
-  getStep(id) { return load().steps[id] || 0; },
+  getStep(id) { return Object.hasOwn(load().steps, id) ? load().steps[id] : 0; },
 
   setStep(id, n) {
     const s = load();
@@ -125,7 +156,7 @@ export const store = {
 
   recordQuiz(id, score, total) {
     const s = load();
-    const prev = s.quizzes[id];
+    const prev = Object.hasOwn(s.quizzes, id) ? s.quizzes[id] : null;
     s.quizzes[id] = {
       best: Math.max(prev ? prev.best : 0, score),
       last: score,
@@ -170,7 +201,7 @@ export const store = {
   importJSON(text) {
     const parsed = JSON.parse(text);
     const data = parsed && parsed.app === 'erp-made-simple' ? parsed.data : parsed;
-    if (!data || typeof data !== 'object' || typeof data.completed !== 'object') {
+    if (!isRecord(data) || !isRecord(data.completed)) {
       throw new Error('This file does not look like a progress backup from this app.');
     }
     memory = normalize(data);

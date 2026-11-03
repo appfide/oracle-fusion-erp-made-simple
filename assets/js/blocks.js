@@ -244,7 +244,7 @@ export function stepTitle(b, isFirst) {
 }
 
 export function renderBlock(block, ctx) {
-  const fn = renderers[block.type];
+  const fn = Object.hasOwn(renderers, block.type) ? renderers[block.type] : null;
   if (!fn) return h('div', { class: 'blk' }, `Unknown block type: ${block.type}`);
   try {
     return fn(block, ctx);

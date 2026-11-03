@@ -93,3 +93,33 @@ test('keeps working in memory when storage is blocked (private mode)', () => {
   assert.ok(store.isComplete('basics/money-words'));
   assert.equal(store.storageAvailable, false);
 });
+
+test('import ignores invalid settings and wrong types instead of keeping them', () => {
+  store.importJSON(JSON.stringify({
+    completed: {}, visited: [1, 2], quizzes: { 'a/b': { best: 'x', total: null }, 'c/d': 'oops' }, steps: { 'a/b': -3, 'c/d': 2 },
+    certificateName: { name: 'x' }, last: 42,
+    settings: { theme: '"><script>', textSize: 'huge', passMark: 'abc', layout: 'page', reduceMotion: 'yes', autoComplete: false },
+  }));
+  const st = store.state;
+  assert.deepEqual(st.visited, {});
+  assert.deepEqual(Object.keys(st.quizzes), ['a/b']);
+  assert.equal(st.quizzes['a/b'].best, 0);
+  assert.deepEqual(st.steps, { 'c/d': 2 });
+  assert.equal(st.certificateName, '');
+  assert.equal(st.last, null);
+  assert.deepEqual(st.settings, { theme: 'system', textSize: 'm', reduceMotion: false, autoComplete: false, passMark: 70, layout: 'page' });
+});
+
+test('import rejects a backup whose completed list is not an object', () => {
+  for (const bad of ['{"completed":null}', '{"completed":[]}', '{"completed":"x"}']) {
+    assert.throws(() => store.importJSON(bad), /does not look like a progress backup/, bad);
+  }
+});
+
+test('a broken value already in storage is repaired on load', async () => {
+  mem.set(KEY, JSON.stringify({ completed: { 'a/b': '2026-01-01' }, settings: { theme: 7, passMark: 1e9 } }));
+  const fresh = await import(`../assets/js/store.js?reload=${Date.now()}`);
+  assert.ok(fresh.store.isComplete('a/b'));
+  assert.equal(fresh.store.settings.theme, 'system');
+  assert.equal(fresh.store.settings.passMark, 70);
+});
