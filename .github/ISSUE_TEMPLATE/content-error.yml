@@ -1,0 +1,28 @@
+name: Content error
+description: Something in a lesson is wrong, outdated or confusing
+labels: [content]
+body:
+  - type: input
+    id: lesson
+    attributes:
+      label: Lesson
+      description: Paste the lesson link or name
+      placeholder: "#/lesson/payables/matching"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or confusing?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official source (if you have one)
+      description: A docs.oracle.com link that shows the correct information
+  - type: input
+    id: release
+    attributes:
+      label: Oracle release (if relevant)
+      placeholder: "e.g. 26D"

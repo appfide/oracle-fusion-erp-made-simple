@@ -1,0 +1,14 @@
+name: Idea or new lesson
+description: Suggest a new lesson, topic or app feature
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Who would it help, and how?
