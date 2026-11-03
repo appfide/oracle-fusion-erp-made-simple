@@ -29,6 +29,25 @@ const OG_IMAGE = `${SITE}assets/icons/og-image.png`;
 const ORG_ID = `${APP.authorUrl}/#organization`;
 const COURSE_ID = `${SITE}#course`;
 const TODAY = new Date().toISOString().slice(0, 10);
+const INDEXNOW_KEY = '6a4d1cacf5df87fc9b60097379ee2130';
+
+/** Search-friendly topic name per module (what people actually type into Google). */
+const TOPIC = {
+  basics: 'Oracle Fusion Cloud ERP Basics',
+  payables: 'Oracle Fusion Payables (Accounts Payable)',
+  procurement: 'Oracle Fusion Procurement',
+  expenses: 'Oracle Fusion Expenses',
+  receivables: 'Oracle Fusion Receivables (Accounts Receivable)',
+  cash: 'Oracle Fusion Cash Management',
+  assets: 'Oracle Fusion Assets (Fixed Assets)',
+  gl: 'Oracle Fusion General Ledger',
+  reporting: 'Oracle Fusion Reporting (OTBI, Analytics Publisher, Smart View)',
+  data: 'Oracle Fusion FBDI, Integrations and Scheduled Processes',
+  beyond: 'Oracle Fusion Financials: Tax, Intercompany and Budgetary Control',
+  journey: 'Oracle Fusion Cloud Updates, AI and Certification',
+};
+const topic = (m) => TOPIC[m.id] || `Oracle Fusion ${m.short || m.title}`;
+const shortTopic = (m) => topic(m).replace(/ \(.*\)$/, '').replace(/:.*$/, '');
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -104,7 +123,7 @@ function renderBlock(b) {
 
 /* ------------------------------------------------------------------ layout */
 
-function page({ title, description, canonical, depth, body, jsonld, type = 'article' }) {
+function page({ title, description, canonical, depth, body, jsonld, type = 'article', extraHead = '' }) {
   const up = '../'.repeat(depth);
   return `<!doctype html>
 <html lang="en">
@@ -138,7 +157,7 @@ function page({ title, description, canonical, depth, body, jsonld, type = 'arti
 <link rel="icon" href="${up}assets/icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${up}assets/icons/icon-192.png">
 <link rel="stylesheet" href="${up}assets/css/static.css">
-${ld(jsonld)}
+${extraHead}${ld(jsonld)}
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -191,7 +210,7 @@ for (const [i, { m, l }] of flat.entries()) {
 
   const body = `${crumbHtml([['All lessons', '../../'], [m.short || m.title, '../'], [lesson.title, '']])}
 <article>
-<p class="kicker">${esc(m.icon)} Module ${moduleNo} · Lesson ${lessonNo} · ${lesson.minutes || 10} min</p>
+<p class="kicker">${esc(m.icon)} ${esc(shortTopic(m))} tutorial · Module ${moduleNo}, lesson ${lessonNo} of ${m.lessons.length} · ${lesson.minutes || 10} min</p>
 <h1>${esc(lesson.title)}</h1>
 <p class="lead">${esc(text(lesson.summary))}</p>
 ${releaseNote}
@@ -200,6 +219,7 @@ ${lesson.objectives?.length ? `<section class="box"><h2>What you will learn</h2>
 ${lesson.blocks.map(renderBlock).join('\n')}
 <p class="cta"><a class="btn btn-primary" href="${appUrl}">▶ Try the exercises and quiz</a></p>
 ${lesson.sources?.length ? `<section><h2>Sources</h2><ul class="sources">${lesson.sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener noreferrer">${esc(s.title)}</a> — ${esc(s.publisher)}</li>`).join('')}</ul></section>` : ''}
+<section class="box"><h2>More ${esc(shortTopic(m))} lessons</h2><ol>${m.lessons.map((x) => (x.slug === l.slug ? `<li><strong>${esc(x.title)}</strong> (you are here)</li>` : `<li><a href="../${x.slug}/">${esc(x.title)}</a></li>`)).join('')}</ol><p><a href="../../">See all ${flat.length} lessons</a></p></section>
 </article>
 <nav class="pager" aria-label="Lessons">${prev ? `<a rel="prev" href="../../${prev.m.id}/${prev.l.slug}/">← ${esc(prev.l.title)}</a>` : '<span></span>'}${next ? `<a rel="next" href="../../${next.m.id}/${next.l.slug}/">${esc(next.l.title)} →</a>` : ''}</nav>`;
 
@@ -220,7 +240,8 @@ ${lesson.sources?.length ? `<section><h2>Sources</h2><ul class="sources">${lesso
         isAccessibleForFree: true,
         timeRequired: `PT${lesson.minutes || 10}M`,
         teaches: lesson.objectives || [],
-        keywords: ['Oracle Fusion Cloud ERP', m.title, `Oracle ${ORACLE.release}`].join(', '),
+        keywords: ['Oracle Fusion Cloud ERP', topic(m), `${shortTopic(m)} tutorial`, `Oracle ${ORACLE.release}`, 'beginner'].join(', '),
+        about: { '@type': 'Thing', name: topic(m) },
         dateModified: lastmod,
         version: `Oracle Fusion Cloud Applications update ${ORACLE.release}`,
         license: 'https://creativecommons.org/licenses/by-sa/4.0/',
@@ -236,8 +257,9 @@ ${lesson.sources?.length ? `<section><h2>Sources</h2><ul class="sources">${lesso
   const out = path.join(OUT, 'learn', m.id, l.slug, 'index.html');
   await mkdir(path.dirname(out), { recursive: true });
   await writeFile(out, page({
-    title: `${lesson.title} · Oracle Fusion ERP ${ORACLE.release} tutorial · ${APP.name}`,
+    title: `${lesson.title} | ${shortTopic(m)} Tutorial (${ORACLE.release})`,
     description: desc, canonical: url, depth: 3, body, jsonld,
+    extraHead: `<meta property="article:modified_time" content="${lastmod}">\n<meta property="article:author" content="${esc(APP.authorUrl)}">\n<meta property="article:publisher" content="${esc(APP.authorUrl)}">\n<meta property="article:section" content="${esc(topic(m))}">\n<meta name="keywords" content="${esc([topic(m), `${shortTopic(m)} tutorial`, 'Oracle Fusion Cloud ERP', `Oracle ${ORACLE.release}`, lesson.title].join(', '))}">\n`,
   }));
   urls.push({ loc: url, lastmod, priority: '0.7' });
 }
@@ -247,7 +269,7 @@ for (const [mi, m] of curriculum.entries()) {
   const url = `${SITE}learn/${m.id}/`;
   const lessons = lessonsByModule.get(m.id) || [];
   const body = `${crumbHtml([['All lessons', '../'], [m.title, '']])}
-<p class="kicker">${esc(m.icon)} Module ${mi + 1} · ${lessons.length} lessons</p>
+<p class="kicker">${esc(m.icon)} Free ${esc(shortTopic(m))} tutorial for beginners · Module ${mi + 1} · ${lessons.length} lessons</p>
 <h1>${esc(m.title)}</h1>
 <p class="lead">${esc(m.description)}</p>
 ${releaseNote}
@@ -269,8 +291,8 @@ ${releaseNote}
   const out = path.join(OUT, 'learn', m.id, 'index.html');
   await mkdir(path.dirname(out), { recursive: true });
   await writeFile(out, page({
-    title: `${m.title} · Oracle Fusion Cloud ERP ${ORACLE.release} tutorial · ${APP.name}`,
-    description: clip(m.description), canonical: url, depth: 2, body, jsonld, type: 'website',
+    title: `${shortTopic(m)} Tutorial for Beginners (${ORACLE.release}) – Free | ${APP.name}`,
+    description: clip(`Free ${shortTopic(m)} tutorial for beginners (Oracle ${ORACLE.release}): ${m.description}`), canonical: url, depth: 2, body, jsonld, type: 'website',
   }));
   urls.push({ loc: url, lastmod: TODAY, priority: '0.8' });
 }
@@ -279,7 +301,7 @@ ${releaseNote}
 {
   const url = `${SITE}learn/`;
   const body = `${crumbHtml([['ERP Made Simple', '../'], ['All lessons', '']])}
-<h1>Learn Oracle Fusion Cloud ERP: all ${flat.length} lessons</h1>
+<h1>Oracle Fusion Cloud ERP tutorial for beginners: all ${flat.length} free lessons</h1>
 <p class="lead">A free, open-source course for absolute beginners, created by <a href="${esc(APP.authorUrl)}">${esc(APP.author)}</a>. Start with the basics, then Accounts Payable, then the rest of the system. About ${Math.round(totalMinutes / 60)} hours in total.</p>
 ${releaseNote}
 <p class="cta"><a class="btn btn-primary" href="../">▶ Open the interactive course</a></p>
@@ -307,12 +329,43 @@ ${curriculum.map((m, mi) => `<section><h2><a href="${m.id}/">${esc(m.icon)} ${mi
   };
   await mkdir(path.join(OUT, 'learn'), { recursive: true });
   await writeFile(path.join(OUT, 'learn', 'index.html'), page({
-    title: `All lessons · Learn Oracle Fusion Cloud ERP ${ORACLE.release} free · ${APP.name}`,
+    title: `Oracle Fusion Cloud ERP Tutorial for Beginners – ${flat.length} Free Lessons (${ORACLE.release})`,
     description: clip(`All ${flat.length} free beginner lessons on Oracle Fusion Cloud ERP (release ${ORACLE.release}): basics, Accounts Payable, Procurement, Expenses, Receivables, Cash, Assets, General Ledger and reporting. Created by ${APP.author}.`),
     canonical: url, depth: 1, body, jsonld, type: 'website',
   }));
   urls.splice(1, 0, { loc: url, lastmod: TODAY, priority: '0.9' });
 }
+
+/* 404 page (GitHub Pages serves it for any missing path; noindex) */
+await writeFile(path.join(OUT, '404.html'), `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Page not found · ${esc(APP.name)}</title>
+<link rel="stylesheet" href="${SITE}assets/css/static.css"></head>
+<body><main class="wrap"><h1>Page not found</h1><p class="lead">This page doesn’t exist (or it moved).</p>
+<p class="cta"><a class="btn btn-primary" href="${SITE}">▶ Open ${esc(APP.name)}</a> <a class="btn" href="${SITE}learn/">All lessons</a></p>
+<p class="muted">Created by <a href="${esc(APP.authorUrl)}">${esc(APP.author)}</a>.</p></main></body></html>
+`);
+
+/* llms.txt — a plain map of the course for AI search assistants (llmstxt.org) */
+await writeFile(path.join(OUT, 'llms.txt'), `# ${APP.name}
+
+> Free, open-source Oracle Fusion Cloud ERP course for absolute beginners, matching Oracle release ${ORACLE.release} (checked ${ORACLE.checked}). ${flat.length} step-by-step lessons with examples, exercises and quizzes. Created by ${APP.author} (${APP.authorUrl}). Lesson content is CC BY-SA 4.0; every lesson cites official Oracle documentation.
+
+- Interactive course: ${SITE}
+- All lessons (text pages): ${SITE}learn/
+- Source code: ${APP.repo}
+
+${curriculum.map((m, mi) => `## ${mi + 1}. ${m.title}\n\n${m.description}\n\n${m.lessons.map((l) => `- [${l.title}](${SITE}learn/${m.id}/${l.slug}/)`).join('\n')}`).join('\n\n')}
+`);
+
+/* IndexNow key file (lets Bing, Yandex and others accept our "pages changed" pings) */
+await writeFile(path.join(OUT, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY);
+await writeFile(path.join(OUT, 'indexnow.json'), JSON.stringify({
+  host: new URL(SITE).host,
+  key: INDEXNOW_KEY,
+  keyLocation: `${SITE}${INDEXNOW_KEY}.txt`,
+  urlList: [...urls.map((u) => u.loc)],
+}));
 
 /* sitemap + robots */
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

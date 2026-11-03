@@ -49,9 +49,16 @@ jobs:
           mkdir -p _site
           cp -R index.html manifest.webmanifest sw.js .nojekyll assets content google*.html _site/
           node scripts/build-seo.mjs _site
+          mv _site/indexnow.json indexnow.json   # ping payload, not published
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Tell search engines the pages changed (IndexNow — Bing, Yandex, Seznam, Naver)
+        continue-on-error: true
+        run: |
+          sleep 30
+          curl -sS -o /dev/null -w 'IndexNow: HTTP %{http_code}\n' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' --data @indexnow.json
