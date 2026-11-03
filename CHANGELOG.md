@@ -32,6 +32,6 @@ All notable changes to this project are documented here. The format follows
 - Initial release: beginner course on Oracle Fusion Cloud ERP with lessons, exercises, quizzes and simulators,
   offline support and browser-only progress.
 
-[Unreleased]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/d6f8bbf...HEAD
-[1.1.1]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/0ae4030...d6f8bbf
-[1.0.0]: https://github.com/appfide/oracle-fusion-erp-made-simple/commit/0ae4030
+[Unreleased]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.0.0...v1.1.1
+[1.0.0]: https://github.com/appfide/oracle-fusion-erp-made-simple/releases/tag/v1.0.0
