@@ -1,0 +1,47 @@
+name: Dependabot auto-merge
+
+# Keeps the pinned GitHub Actions up to date without manual work:
+# approves Dependabot's pull requests, merges them once every required check passes,
+# then starts the deploy (a merge made with GITHUB_TOKEN does not trigger push workflows).
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    # Only Dependabot's own pull requests, only when Dependabot made the latest change.
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write        # merge
+      pull-requests: write   # approve, enable auto-merge
+      actions: write         # start the deploy workflow
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      PR_URL: ${{ github.event.pull_request.html_url }}
+    steps:
+      - name: Approve and enable auto-merge (merges only after all required checks pass)
+        run: |
+          gh pr review --approve "$PR_URL" --body "Dependabot update of pinned GitHub Actions. Merges automatically once all required checks pass."
+          gh pr merge --auto --squash --delete-branch "$PR_URL"
+
+      - name: Wait for the merge, then deploy
+        run: |
+          for i in $(seq 1 120); do
+            state=$(gh pr view "$PR_URL" --json state --jq .state)
+            if [ "$state" = "MERGED" ]; then
+              gh workflow run pages.yml --ref main
+              echo "Merged; deploy started."
+              exit 0
+            fi
+            if [ "$state" = "CLOSED" ]; then
+              echo "Pull request was closed without merging."
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::Not merged within 40 minutes — a required check is probably failing. Fix the pull request; it merges automatically once checks pass. Then run 'Validate and deploy' from the Actions tab."
+          exit 1

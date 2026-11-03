@@ -32,7 +32,7 @@ Thank you for helping people learn! 🍋
 4. Open a pull request using the template. Small, focused PRs are reviewed fastest.
 
 Every change to `main` goes through a pull request. CI must pass (content validation, REUSE license check, DCO
-sign-off) and a code owner must approve it. See [GOVERNANCE.md](GOVERNANCE.md).
+sign-off) and a maintainer must approve it. See [GOVERNANCE.md](GOVERNANCE.md).
 
 ## Developer Certificate of Origin (DCO)
 

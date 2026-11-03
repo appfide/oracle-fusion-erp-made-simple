@@ -11,7 +11,9 @@
 ## How decisions are made
 
 - Day-to-day changes are decided in pull requests. Every change to `main` goes through a pull request that passes
-  CI and is approved by a maintainer (a code owner).
+  CI and is approved by a maintainer.
+- Dependabot updates to the pinned GitHub Actions are approved and merged automatically once every required check
+  passes (`.github/workflows/dependabot-auto-merge.yml`), then deployed. A failing update stays open for a maintainer.
 - Larger changes (new modules, changes to the content rules in `docs/CONTENT_GUIDE.md`, licensing, privacy) are
   proposed in an issue first. Maintainers aim for consensus; if there is none, Appfide makes the final call and
   records the reason in the issue.
