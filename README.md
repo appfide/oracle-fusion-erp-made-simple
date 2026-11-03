@@ -63,8 +63,11 @@ Contributions are very welcome — fix a typo, improve an explanation, update a 
 lesson or translate. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md), then run:
 
 ```bash
-node scripts/validate-content.mjs
+node scripts/validate-content.mjs   # lesson structure and accuracy rules
+node --test tests/                  # privacy/security guardrails, storage, and every page in headless Chrome
 ```
+
+Every pull request runs both, plus a license (REUSE) check, DCO sign-off and CodeQL. None of them need `npm install`.
 
 ## Hosting
 

@@ -11,6 +11,11 @@ All notable changes to this project are documented here. The format follows
 - Developer Certificate of Origin (DCO) sign-off for contributions, checked on every pull request.
 - CI: REUSE license compliance check, OpenSSF Scorecard, Dependabot updates for GitHub Actions.
 - Dependabot pull requests are approved, merged and deployed automatically once all required checks pass.
+- Test suite (`node --test tests/`, no dependencies) run on every pull request:
+  - guardrails for the CSP, third-party requests, trackers, raw HTML, dangerous code, secrets, the offline cache and version numbers;
+  - progress storage, including hostile backup files;
+  - every page, module, lesson and practice lab rendered in headless Chrome with no errors or CSP violations;
+  - XSS payloads run through the real HTML sanitizer.
 - Dependabot waits 7 days after an action is released before proposing it (supply-chain cooldown).
 
 ### Changed
