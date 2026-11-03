@@ -11,6 +11,7 @@ All notable changes to this project are documented here. The format follows
 - Developer Certificate of Origin (DCO) sign-off for contributions, checked on every pull request.
 - CI: REUSE license compliance check, OpenSSF Scorecard, Dependabot updates for GitHub Actions.
 - Dependabot pull requests are approved, merged and deployed automatically once all required checks pass.
+- Dependabot waits 7 days after an action is released before proposing it (supply-chain cooldown).
 
 ### Changed
 - All GitHub Actions are pinned to full commit SHAs and run with least-privilege permissions.

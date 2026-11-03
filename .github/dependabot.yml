@@ -4,6 +4,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # Only propose a release once it has been public for a week, so a compromised
+    # upstream release is usually caught and pulled before it reaches this repo.
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         patterns: ["*"]
