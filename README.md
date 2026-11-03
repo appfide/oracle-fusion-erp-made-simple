@@ -5,7 +5,7 @@ Created by **Appfide Private Limited**.
 A free, open-source web app that teaches **Oracle Fusion Cloud ERP** step by step — explained so simply that a
 10-year-old could follow, yet deep enough to use at work.
 
-**▶ Start learning: https://dhipin.github.io/oracle-fusion-erp-made-simple/**
+**▶ Start learning: https://appfide.github.io/oracle-fusion-erp-made-simple/**
 
 - 🧱 **Basics first** — what an ERP is, money words (debits and credits), moving around the screens, enterprise structure, ledgers, setup and security.
 - 💸 **Then Accounts Payable in depth** — suppliers, invoices, matching, holds, approvals, accounting, payments, prepayments, tax, month-end and reports.
