@@ -47,7 +47,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir -p _site
-          cp -R index.html manifest.webmanifest sw.js .nojekyll assets content _site/
+          cp -R index.html manifest.webmanifest sw.js .nojekyll assets content google*.html _site/
           node scripts/build-seo.mjs _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
