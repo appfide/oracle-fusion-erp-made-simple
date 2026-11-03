@@ -5,6 +5,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- OpenSSF Best Practices passing badge (project 16293).
+
 ## [1.2.0] - 2026-11-03
 
 ### Added

@@ -6,6 +6,7 @@
 [![Compliance](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml)
 [![CodeQL](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/github-code-scanning/codeql)
 [![Dependabot auto-merge](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16293/badge)](https://www.bestpractices.dev/projects/16293)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/appfide/oracle-fusion-erp-made-simple/badge)](https://scorecard.dev/viewer/?uri=github.com/appfide/oracle-fusion-erp-made-simple)
 
 Created by **[Appfide Private Limited](https://appfide.com)**.
