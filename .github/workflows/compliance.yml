@@ -36,7 +36,10 @@ jobs:
           fail=0
           for c in $(git rev-list --no-merges "$BASE..$HEAD"); do
             email=$(git show -s --format='%ae' "$c")
-            if git show -s --format='%B' "$c" | grep -qiE "^Signed-off-by: .+ <${email}>$"; then
+            case "$email" in
+              *'[bot]@users.noreply.github.com') echo "bot  $c ($email) — exempt"; continue ;;
+            esac
+            if git show -s --format='%(trailers:key=Signed-off-by,valueonly)' "$c" | grep -qiF "<${email}>"; then
               echo "ok   $c"
             else
               echo "::error::Commit $c is missing 'Signed-off-by: <name> <${email}>'. Use 'git commit -s' (see CONTRIBUTING.md)."

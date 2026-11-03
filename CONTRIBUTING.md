@@ -47,7 +47,7 @@ git commit -s -m "Explain prepayments more simply"
 
 The name and email must match the commit author. Forgot? Run `git commit --amend -s` (one commit) or
 `git rebase --signoff main` (several), then force-push your branch. Edits made in the GitHub web editor are signed
-off automatically.
+off automatically. Commits from GitHub-verified bots (such as Dependabot) are exempt.
 
 ## Licensing of contributions
 
