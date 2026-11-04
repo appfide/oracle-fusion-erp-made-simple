@@ -21,21 +21,46 @@ Thank you for helping people learn! 🍋
 
 - No build step, no runtime dependencies, no third-party requests (fonts, CDNs, analytics). This is a privacy promise.
 - Everything the app stores stays in `localStorage` under one key (see `assets/js/store.js`).
-- Keep it accessible: keyboard navigation, visible focus, labels, color contrast in light and dark themes.
+- Keep it accessible (WCAG 2.2 AA): keyboard navigation, visible focus, labels, color contrast in light and dark themes.
 - If you change files in the app shell, bump `VERSION` in `sw.js` so learners get the update.
+- Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the app fits together and
+  [docs/ASSURANCE_CASE.md](docs/ASSURANCE_CASE.md) for the security rules it relies on.
+
+## Coding standard
+
+`node scripts/lint.mjs` (also run by `npm test` and in CI) enforces the rules a machine can check:
+
+- UTF-8, LF line endings, a final newline, no trailing spaces, two-space indentation (see `.editorconfig`).
+- Modern JavaScript modules: `const`/`let` (never `var`), `===`/`!==` only, no `debugger`, no `eval`,
+  `new Function` or string timers, no `console.log` in the shipped app (`console.error` for real errors).
+- Build the DOM with `h()` from `assets/js/dom.js`. Raw HTML is only allowed through the sanitizer, or in a reviewed
+  exception marked `// lint-allow raw-html: <reason>` (also counted in `tests/static.test.mjs`).
+- Look up ids from URLs or saved data with `Object.hasOwn`, never `obj[id]` alone (prototype pollution).
+
+And by review: small pure functions, names that say what things are, a short comment that explains *why* when it
+isn't obvious, single quotes, semicolons, and plain English that a
+10-year-old could follow in anything learners see.
+
+## Tests
+
+- **Every new feature needs a test, and every bug fix needs a regression test** that fails without the fix.
+  Prove it once: break the code on purpose, watch the test fail, then restore it.
+- `npm test` runs everything (see the table in the README). `npm run coverage` runs it with code coverage;
+  CI fails if line coverage of `assets/js/` and `scripts/` drops below 80%.
+- Tests must not need the internet or npm packages. The browser tests need Chrome or Chromium.
 
 ## Pull requests
 
 1. Fork the repository and create a branch.
-2. Make your change, then run `node scripts/validate-content.mjs` and `npm test`.
+2. Make your change, then run `node scripts/validate-content.mjs`, `npm run lint` and `npm test`.
    The browser tests need Google Chrome or Chromium installed; set `CHROME_PATH` if it is somewhere unusual.
    Run one area with `node --test tests/<area>.test.mjs`. Fuzz tests print their seed; repeat a failing run with
    `FUZZ_SEED=<seed> npm test`. A new feature should come with a test (see the table in the README).
 3. Commit with a sign-off: `git commit -s` (see below).
 4. Open a pull request using the template. Small, focused PRs are reviewed fastest.
 
-Every change to `main` goes through a pull request. CI must pass (content validation, REUSE license check, DCO
-sign-off) and a maintainer must approve it. See [GOVERNANCE.md](GOVERNANCE.md).
+Every change to `main` goes through a pull request. CI must pass (content validation, lint, tests, coverage, REUSE
+license check, DCO sign-off) and a maintainer must approve it. See [GOVERNANCE.md](GOVERNANCE.md).
 
 ## Developer Certificate of Origin (DCO)
 

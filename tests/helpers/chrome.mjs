@@ -5,7 +5,7 @@
  */
 import { createServer } from 'node:http';
 import { spawn, execFileSync } from 'node:child_process';
-import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { readFile, mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, extname, normalize } from 'node:path';
@@ -43,6 +43,8 @@ export async function serve(dir = ROOT) {
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   return { url: `http://127.0.0.1:${server.address().port}`, offline, close: () => new Promise((r) => { server.closeAllConnections?.(); server.close(r); }) };
 }
+
+let coverageFiles = 0;
 
 export async function launch() {
   const CHROME = findChrome();
@@ -102,6 +104,7 @@ export async function launch() {
     },
     /** Load a URL as a fresh document (a hash-only change is reloaded, like a user pressing F5). */
     async open(url) {
+      await flushCoverage();
       const current = await b.evaluate('location.href').catch(() => '');
       if (current.split('#')[0] === url.split('#')[0]) { // a hash-only change would keep the old document
         await send('Page.navigate', { url: 'about:blank' });
@@ -131,21 +134,37 @@ export async function launch() {
       await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value }] });
     },
     async close() {
+      await flushCoverage().catch(() => {});
+      if (coverage.length) {
+        await mkdir(process.env.COVERAGE_DIR, { recursive: true });
+        await writeFile(join(process.env.COVERAGE_DIR, `browser-${process.pid}-${++coverageFiles}.json`), JSON.stringify({ result: coverage }));
+      }
       ws.close();
       proc.kill();
       await rm(profile, { recursive: true, force: true }).catch(() => {});
     },
   };
+  // Code coverage (scripts/coverage.mjs): V8 block coverage of every page, collected before each navigation.
+  const coverage = [];
+  async function flushCoverage() {
+    if (!process.env.COVERAGE_DIR) return;
+    const { result } = await send('Profiler.takePreciseCoverage');
+    coverage.push(...result.filter((r) => /^http:\/\/127\.0\.0\.1:\d+\//.test(r.url)));
+  }
   await send('Runtime.enable');
   await send('Log.enable');
   await send('Page.enable');
+  if (process.env.COVERAGE_DIR) {
+    await send('Profiler.enable');
+    await send('Profiler.startPreciseCoverage', { callCount: true, detailed: true });
+  }
   return b;
 }
 
 /** Every route of the app: pages, modules and lessons (labs are discovered in the page). */
 export async function allRoutes() {
   const { curriculum } = await import('../../content/curriculum.js');
-  const pages = ['#/', '#/lab', '#/search?q=invoice', '#/glossary', '#/credits', '#/settings', '#/about', '#/certificate'];
+  const pages = ['#/', '#/lab', '#/search?q=invoice', '#/glossary', '#/credits', '#/settings', '#/about', '#/accessibility', '#/certificate'];
   for (const m of curriculum) {
     pages.push(`#/module/${m.id}`);
     for (const l of m.lessons) pages.push(`#/lesson/${m.id}/${l.slug}`);

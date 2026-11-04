@@ -9,7 +9,12 @@
  */
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { SKIP as skip, STORAGE_KEY, serve, launch, allRoutes, sleep } from './helpers/chrome.mjs';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { SKIP as skip, STORAGE_KEY, ROOT, serve, launch, allRoutes, sleep } from './helpers/chrome.mjs';
+
+const { APP } = await import(pathToFileURL(join(ROOT, 'assets/js/config.js')));
 
 let server, b, pages;
 before(async () => {
@@ -254,6 +259,41 @@ test('no page is wider than a phone screen (360px)', { skip, timeout: 600000 }, 
   }
   assert.deepEqual(failures, [], failures.join('\n'));
   b.take();
+});
+
+test('the accessibility statement is published, current, contactable and linked from every page', { skip, timeout: 60000 }, async () => {
+  await fresh({ layout: 'steps' });
+  for (const from of ['#/', '#/lesson/basics/what-is-erp', '#/settings']) {
+    await b.visit(from);
+    assert.ok(await b.evaluate(`!!document.querySelector('footer a[href="#/accessibility"]')`), `${from}: no Accessibility link in the footer`);
+  }
+  await b.visit('#/about');
+  assert.ok(await b.evaluate(`!!document.querySelector('main a[href="#/accessibility"]')`), 'About page does not link to the statement');
+  const heading = await b.visit('#/accessibility');
+  assert.equal(heading, 'Accessibility statement');
+  assert.match(await b.evaluate('document.title'), /^Accessibility statement · /);
+  const page = await b.evaluate(`(() => {
+    const main = document.querySelector('main');
+    return {
+      text: main.textContent,
+      h2: [...main.querySelectorAll('h2')].map((x) => x.textContent),
+      links: [...main.querySelectorAll('a')].map((a) => a.getAttribute('href')),
+      back: document.querySelector('#app-back').hidden ? null : document.querySelector('#app-back').getAttribute('href'),
+    };
+  })()`);
+  assert.match(page.text, /WCAG\) 2\.2 at level AA/, 'conformance target is not stated');
+  for (const section of ['How accessible is this site?', 'How we check', 'Known limitations', 'Tell us about a problem', 'About this statement']) {
+    assert.ok(page.h2.includes(section), `statement has no "${section}" section`);
+  }
+  assert.ok(page.text.includes(`for version ${APP.version} of the site`), 'statement does not name the current version');
+  const reviewed = Date.parse(page.text.match(/last reviewed on (\d{1,2} \w+ \d{4})/)?.[1]);
+  assert.ok(reviewed <= Date.now() && Date.now() - reviewed < 400 * 86400000, 'statement review date is missing, in the future or over a year old: re-check and update A11Y_REVIEWED in views.js');
+  assert.ok(page.links.some((h) => h.startsWith(`mailto:${APP.securityEmail}?`)), 'no private email contact');
+  assert.ok(page.links.some((h) => h.startsWith(`${APP.repo}/issues/new?labels=accessibility`)), 'no public issue contact');
+  const tests = page.links.find((h) => h.startsWith(`${APP.repo}/blob/main/`));
+  assert.ok(tests && existsSync(join(ROOT, tests.slice(`${APP.repo}/blob/main/`.length))), `link to the tests is broken: ${tests}`);
+  assert.equal(page.back, '#/', 'mobile back button does not lead home');
+  assert.deepEqual(b.take(), []);
 });
 
 test('works offline after the first visit (service worker)', { skip, timeout: 120000 }, async () => {

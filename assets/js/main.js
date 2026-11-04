@@ -6,7 +6,7 @@ import { store } from './store.js';
 import { APP, ORACLE } from './config.js';
 import {
   homeView, moduleView, lessonView, searchView, glossaryView, creditsView,
-  settingsView, aboutView, certificateView, notFoundView, labsView, labView,
+  settingsView, aboutView, accessibilityView, certificateView, notFoundView, labsView, labView,
 } from './views.js';
 import { totalLessons, allEntries } from './content.js';
 
@@ -72,6 +72,7 @@ function buildShell() {
         h('a', { href: APP.repo, target: '_blank', rel: 'noopener' }, 'GitHub'),
         h('a', { href: '#/about' }, 'About & privacy'),
         h('a', { href: '#/credits' }, 'Sources & credits'),
+        h('a', { href: '#/accessibility' }, 'Accessibility'),
         h('a', { href: 'learn/' }, 'All lessons (text pages)'),
         h('a', { href: '#/certificate' }, 'Certificate')),
       h('p', { class: 'muted small' },
@@ -113,11 +114,12 @@ const routes = [
   [/^\/credits$/, () => creditsView()],
   [/^\/settings$/, () => settingsView()],
   [/^\/about$/, () => aboutView()],
+  [/^\/accessibility$/, () => accessibilityView()],
   [/^\/certificate$/, () => certificateView()],
 ];
 
 const TITLES = {
-  lab: 'Practice Lab', search: 'Search', glossary: 'Glossary', credits: 'Sources & Credits', settings: 'Settings', about: 'About', certificate: 'Certificate',
+  lab: 'Practice Lab', search: 'Search', glossary: 'Glossary', credits: 'Sources & Credits', settings: 'Settings', about: 'About', accessibility: 'Accessibility', certificate: 'Certificate',
 };
 
 let renderToken = 0;
@@ -160,7 +162,7 @@ async function route() {
   // app-style back button (mobile) + route flag for CSS
   const parts = path.split('/').filter(Boolean);
   const back = $('#app-back');
-  const backTo = parts[0] === 'lesson' ? `#/module/${parts[1]}` : parts[0] === 'module' ? '#/' : parts[0] === 'lab' && parts[1] ? '#/lab' : ['credits', 'about', 'certificate'].includes(parts[0]) ? '#/' : null;
+  const backTo = parts[0] === 'lesson' ? `#/module/${parts[1]}` : parts[0] === 'module' ? '#/' : parts[0] === 'lab' && parts[1] ? '#/lab' : ['credits', 'about', 'accessibility', 'certificate'].includes(parts[0]) ? '#/' : null;
   if (back) { back.hidden = !backTo; if (backTo) back.setAttribute('href', backTo); }
   document.body.dataset.route = parts[0] || 'home';
 
