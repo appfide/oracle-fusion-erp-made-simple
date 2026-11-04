@@ -5,6 +5,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+- Re-releasing an older tag no longer marks it as the latest release.
+
 ## [1.3.0] - 2026-11-04
 
 ### Added
