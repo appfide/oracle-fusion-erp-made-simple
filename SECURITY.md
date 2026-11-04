@@ -15,7 +15,9 @@ Only the latest version on the `main` branch, as published at
 1. **GitHub private vulnerability reporting** — [Security → Report a vulnerability](https://github.com/appfide/oracle-fusion-erp-made-simple/security/advisories/new) (preferred), or
 2. Email **code@appfide.com** with the subject `SECURITY: ERP Made Simple`.
 
-Please include the affected URL or file, steps to reproduce, and the impact you expect.
+Please include the affected URL or file, steps to reproduce, and the impact you expect. These contacts are also
+published in machine-readable form at
+<https://appfide.github.io/oracle-fusion-erp-made-simple/.well-known/security.txt> (RFC 9116).
 
 ## What to expect
 
@@ -27,6 +29,20 @@ Please include the affected URL or file, steps to reproduce, and the impact you 
 
 We will keep you updated, credit you in the advisory if you wish, and publish a GitHub Security Advisory once a fix
 is live (coordinated disclosure). Please give us a reasonable time to fix the issue before disclosing it publicly.
+
+## What the site does and does not promise
+
+The security requirements, threat model and the countermeasure for each common weakness are in
+[docs/ASSURANCE_CASE.md](docs/ASSURANCE_CASE.md).
+
+## Verifying what you download
+
+Every deployment of the site and every [release](https://github.com/appfide/oracle-fusion-erp-made-simple/releases)
+is signed with SLSA build provenance. Check that a release zip was built by this repository's CI:
+
+```bash
+gh attestation verify erp-made-simple-v1.3.0.zip -R appfide/oracle-fusion-erp-made-simple
+```
 
 ## In scope
 

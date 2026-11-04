@@ -28,6 +28,8 @@ jobs:
         run: node scripts/validate-content.mjs
       - name: Syntax-check app code
         run: for f in assets/js/*.js sw.js scripts/*.mjs; do node --check "$f"; done
+      - name: Lint (coding standard, see CONTRIBUTING.md)
+        run: node scripts/lint.mjs
       - name: Test the search-page build
         run: node scripts/build-seo.mjs _seo-test
       - name: Run tests (guardrails, storage, every page in a real browser)
@@ -35,7 +37,13 @@ jobs:
           CI: 'true'
           CHROME_PATH: /usr/bin/google-chrome
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          NODE_V8_COVERAGE: ${{ runner.temp }}/coverage
+          COVERAGE_DIR: ${{ runner.temp }}/coverage
         run: node --test tests/*.test.mjs
+      - name: Code coverage (fails below 80% of lines)
+        env:
+          COVERAGE: ${{ runner.temp }}/coverage
+        run: node scripts/coverage.mjs --report "$COVERAGE"
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -44,7 +52,8 @@ jobs:
     permissions:
       contents: read
       pages: write
-      id-token: write
+      id-token: write       # Pages deployment and Sigstore signing of the provenance
+      attestations: write   # publish the build provenance attestation
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -66,6 +75,11 @@ jobs:
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
+          include-hidden-files: true   # publishes .well-known/security.txt
+      - name: Sign the exact site that is deployed (SLSA build provenance, verify with `gh attestation verify`)
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: ${{ runner.temp }}/artifact.tar
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
       - name: Tell search engines the pages changed (IndexNow — Bing, Yandex, Seznam, Naver)

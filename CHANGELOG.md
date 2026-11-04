@@ -5,8 +5,25 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-04
+
 ### Added
-- OpenSSF Best Practices passing badge (project 16293).
+- Accessibility statement (`#/accessibility`): WCAG 2.2 AA target, how it is tested, known limitations and how to
+  report a problem. Linked from every page footer and the About page.
+- `/.well-known/security.txt` (RFC 9116) with the private reporting channels, renewed on every deploy.
+- Signed deployments and releases: the GitHub Pages artifact and every release zip carry a Sigstore-signed SLSA build
+  provenance attestation (`gh attestation verify`). Version tags publish a GitHub release with the zip, `SHA256SUMS`,
+  the Sigstore bundle and the in-toto statement.
+- Coding standard enforced by `scripts/lint.mjs` in CI; line coverage measured by `scripts/coverage.mjs` (Node and
+  browser V8 coverage, no packages) and enforced at 80% or more.
+- `ROADMAP.md`, `docs/ARCHITECTURE.md`, `docs/ASSURANCE_CASE.md`; governance now lists responsibilities and how the
+  project continues if someone becomes unavailable; contributing guide has the coding standard and test policy.
+- Tests for all of the above (`tests/tools.test.mjs`, plus new checks in the repo, SEO and accessibility tests).
+- OpenSSF Best Practices passing badge (project 16293); REUSE, release, provenance and WCAG badges in the README.
+
+### Changed
+- The search-page build is reproducible: dates come from git or `SOURCE_DATE_EPOCH`, never from the clock.
+- `theme-boot.js` uses `const` (coding standard).
 
 ## [1.2.0] - 2026-11-03
 
@@ -63,7 +80,8 @@ All notable changes to this project are documented here. The format follows
 - Initial release: beginner course on Oracle Fusion Cloud ERP with lessons, exercises, quizzes and simulators,
   offline support and browser-only progress.
 
-[Unreleased]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/appfide/oracle-fusion-erp-made-simple/compare/v1.0.0...v1.1.1
 [1.0.0]: https://github.com/appfide/oracle-fusion-erp-made-simple/releases/tag/v1.0.0

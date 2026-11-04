@@ -8,6 +8,12 @@
 [![Dependabot auto-merge](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16293/badge)](https://www.bestpractices.dev/projects/16293)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/appfide/oracle-fusion-erp-made-simple/badge)](https://scorecard.dev/viewer/?uri=github.com/appfide/oracle-fusion-erp-made-simple)
+[![REUSE status](https://api.reuse.software/badge/github.com/appfide/oracle-fusion-erp-made-simple)](https://api.reuse.software/info/github.com/appfide/oracle-fusion-erp-made-simple)
+[![Release](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/release.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/releases)
+[![Signed: SLSA build provenance](https://img.shields.io/badge/signed-SLSA%20provenance-2ea44f?logo=sigstore&logoColor=white)](https://github.com/appfide/oracle-fusion-erp-made-simple/attestations)
+[![Accessibility: WCAG 2.2 AA](https://img.shields.io/badge/WCAG%202.2-AA-2ea44f)](https://appfide.github.io/oracle-fusion-erp-made-simple/#/accessibility)
+[![Line coverage ≥ 80%](https://img.shields.io/badge/coverage-%E2%89%A580%25%20enforced-2ea44f)](CONTRIBUTING.md#tests)
+[![security.txt](https://img.shields.io/badge/security.txt-RFC%209116-2ea44f)](https://appfide.github.io/oracle-fusion-erp-made-simple/.well-known/security.txt)
 
 Created by **[Appfide Private Limited](https://appfide.com)**.
 
@@ -34,6 +40,13 @@ A free, open-source web app that teaches **Oracle Fusion Cloud ERP** step by ste
 - A strict Content-Security-Policy allows only same-origin resources.
 - Works offline after the first visit (service worker).
 
+## Accessibility
+
+The guide aims to meet **WCAG 2.2 level AA**, and every page is tested for it on every change (headings, names,
+labels, contrast in both themes, 24px targets, keyboard use, phone width). Read the
+[accessibility statement](https://appfide.github.io/oracle-fusion-erp-made-simple/#/accessibility) to see what is
+covered, the known limitations and how to report a problem.
+
 ## Run locally
 
 No build step and no dependencies. Any static file server works:
@@ -56,7 +69,11 @@ content/lessons/<module>/<lesson>.js   One file per lesson
 docs/CONTENT_GUIDE.md      How to write lessons (audience, accuracy rules, block types)
 scripts/validate-content.mjs   Validates every lesson (run in CI)
 scripts/check-links.mjs    Checks all cited source URLs still work
-scripts/build-seo.mjs      Builds search-friendly text pages (/learn/…), sitemap.xml and robots.txt (run in CI)
+scripts/build-seo.mjs      Builds search-friendly text pages (/learn/…), sitemap.xml, robots.txt, security.txt (run in CI)
+scripts/lint.mjs           The coding standard (run in CI and by npm test)
+scripts/coverage.mjs       Line coverage of the test suite, no packages (CI fails below 80%)
+docs/ARCHITECTURE.md       How the app fits together
+docs/ASSURANCE_CASE.md     Security requirements, threat model and how each weakness is countered
 sw.js, manifest.webmanifest    Offline support / installable app
 ```
 
@@ -67,7 +84,9 @@ lesson or translate. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONTENT_G
 
 ```bash
 node scripts/validate-content.mjs   # lesson structure and accuracy rules
+npm run lint                        # the coding standard
 npm test                            # the full test suite (about 30 seconds, needs Chrome or Chromium)
+npm run coverage                    # the same, with a line-coverage report
 node --test tests/journeys.test.mjs # or one area at a time
 FUZZ_SEED=1234 npm test             # repeat a fuzz run exactly (the seed is printed in each fuzz test's name)
 ```
@@ -78,11 +97,12 @@ Every pull request runs both, plus a license (REUSE) check, DCO sign-off and Cod
 
 | Check | When | What it guarantees |
 | --- | --- | --- |
-| [Validate and deploy]({R}/actions/workflows/pages.yml) | every pull request and push to `main` | content rules, the test suite below, then deploy to GitHub Pages |
-| [Compliance]({R}/actions/workflows/compliance.yml) | every pull request and push to `main` | every file licensed (REUSE/SPDX); every commit signed off (DCO) |
-| [CodeQL]({R}/actions/workflows/github-code-scanning/codeql) | every pull request, push and weekly | static security analysis of the JavaScript and workflows |
-| [OpenSSF Scorecard]({R}/actions/workflows/scorecard.yml) | weekly and on push to `main` | supply-chain security score |
-| [Dependabot auto-merge]({R}/actions/workflows/dependabot-auto-merge.yml) | Dependabot pull requests | pinned actions kept current, merged only after every check passes |
+| [Validate and deploy](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/pages.yml) | every pull request and push to `main` | content rules, lint, the test suite below, ≥ 80% line coverage, then a signed deploy to GitHub Pages |
+| [Release](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/release.yml) | every version tag | the built site as a zip with checksums and a Sigstore-signed SLSA provenance attestation |
+| [Compliance](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml) | every pull request and push to `main` | every file licensed (REUSE/SPDX); every commit signed off (DCO) |
+| [CodeQL](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/github-code-scanning/codeql) | every pull request, push and weekly | static security analysis of the JavaScript and workflows |
+| [OpenSSF Scorecard](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/scorecard.yml) | weekly and on push to `main` | supply-chain security score |
+| [Dependabot auto-merge](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml) | Dependabot pull requests | pinned actions kept current, merged only after every check passes |
 
 The test suite (`tests/`, Node's built-in test runner plus headless Chrome, no packages):
 
@@ -92,9 +112,23 @@ The test suite (`tests/`, Node's built-in test runner plus headless Chrome, no p
 | `store.test.mjs`, `fuzz.test.mjs` | progress storage; 5,000 random and hostile backups per run (prototype pollution, wrong types, huge values) |
 | `browser.test.mjs` | every page, module, lesson and lab rendered with no errors; every in-app link; hostile URLs; 150 corrupted saved states; the HTML sanitizer against XSS payloads and 3,000 fuzzed documents |
 | `journeys.test.mjs` | what learners do: every quiz and every hands-on exercise solved with its answer key, completing lessons, step-by-step navigation, settings, search, glossary, export/import/reset, certificate, every lab with extreme values |
-| `a11y.test.mjs` | accessibility on every page (headings, names, labels, ARIA, focus, 24px targets), WCAG AA contrast in light and dark, phone width, keyboard use, offline mode |
-| `seo.test.mjs` | the search-engine pages: titles, descriptions, canonical URLs, structured data, sitemap, robots.txt, links, CSP |
-| `repo.test.mjs` | CI hardening (pinned actions, least privilege, no script injection), policy files, curriculum integrity, every script parses |
+| `a11y.test.mjs` | accessibility on every page (headings, names, labels, ARIA, focus, 24px targets), WCAG AA contrast in light and dark, phone width, keyboard use, offline mode, the accessibility statement |
+| `seo.test.mjs` | the search-engine pages: titles, descriptions, canonical URLs, structured data, sitemap, robots.txt, links, CSP; security.txt (RFC 9116); the build is reproducible |
+| `repo.test.mjs` | CI hardening (pinned actions, least privilege, no script injection), signed deploys and releases, policy files, badges, curriculum integrity, every script parses |
+| `tools.test.mjs` | the project's own tools catch what they promise: the linter (every rule, no false alarms), the coverage reporter, the source-link checker (fake network) |
+
+## Verify what you get
+
+Every deployment of the site and every [release](https://github.com/appfide/oracle-fusion-erp-made-simple/releases) is signed with
+[SLSA build provenance](https://github.com/appfide/oracle-fusion-erp-made-simple/attestations) (Sigstore, keyless). It proves the files were built by this repository's
+CI from a specific commit. To check a release zip:
+
+```bash
+gh attestation verify erp-made-simple-v1.3.0.zip -R appfide/oracle-fusion-erp-made-simple
+sha256sum -c SHA256SUMS
+```
+
+The build is reproducible: the same commit always gives the same files.
 
 ## Hosting
 
@@ -117,7 +151,9 @@ The site has no third-party dependencies.
 ## Project policies
 
 [Contributing](CONTRIBUTING.md) (with DCO sign-off) · [Code of Conduct](CODE_OF_CONDUCT.md) ·
-[Security policy](SECURITY.md) · [Support](SUPPORT.md) · [Governance](GOVERNANCE.md) · [Changelog](CHANGELOG.md)
+[Security policy](SECURITY.md) · [Support](SUPPORT.md) · [Governance](GOVERNANCE.md) · [Roadmap](ROADMAP.md) ·
+[Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Security assurance case](docs/ASSURANCE_CASE.md) ·
+[Accessibility statement](https://appfide.github.io/oracle-fusion-erp-made-simple/#/accessibility)
 
 ## Disclaimer
 

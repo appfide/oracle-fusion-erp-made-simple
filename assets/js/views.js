@@ -41,6 +41,7 @@ function ring(pct, size = 120, label = '') {
   const c = 2 * Math.PI * r;
   const wrap = h('div', { class: 'ring', role: 'img', 'aria-label': `${pct}% complete${label ? ` ${label}` : ''}` });
   wrap.style.setProperty('--size', `${size}px`);
+  // lint-allow raw-html: static SVG, numbers only (reviewed; counted in tests/static.test.mjs)
   wrap.innerHTML = `<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="${r}"/><circle class="ring-fg" cx="60" cy="60" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c - (pct / 100) * c}"/></svg>`;
   wrap.append(h('div', { class: 'ring-label' }, h('strong', {}, `${pct}%`), label && h('span', {}, label)));
   return wrap;
@@ -654,8 +655,55 @@ export function aboutView() {
       h('p', {}, 'No. This is an independent community project and is not affiliated with or endorsed by Oracle. It explains Oracle’s official documentation in simpler words and links to it. Oracle Fusion Cloud is updated every quarter, so screens and names can change. When in doubt, the official Oracle Help Center is the source of truth.'),
       h('h2', {}, 'Can I help?'),
       h('p', {}, 'Yes, please! Fix a typo, improve an explanation, add a lesson or translate the guide. Every lesson is a small, readable file. See the contributing guide on ', link(APP.repo, { target: '_blank', rel: 'noopener' }, 'GitHub'), '.'),
+      h('h2', {}, 'Accessibility'),
+      h('p', {}, 'The guide aims to meet WCAG 2.2 level AA and is tested for it on every change. Read the ', link('#/accessibility', {}, 'accessibility statement'), '.'),
       h('h2', {}, 'License'),
       h('p', {}, 'Code: MIT License. Lesson content: CC BY-SA 4.0. Sources are credited in every lesson and on the Sources & Credits page.')));
+}
+
+/* ---------------------------------------------------------------- accessibility */
+
+/** When this statement was last checked against the site (update it when you re-check). */
+const A11Y_REVIEWED = '4 November 2026';
+
+export function accessibilityView() {
+  const issues = `${APP.repo}/issues/new?labels=accessibility&title=${encodeURIComponent('Accessibility: ')}`;
+  return h('div', { class: 'narrow prose-page' },
+    pageHead('♿ Accessibility', 'Accessibility statement', `${APP.name} is for everyone. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.`),
+    h('div', { class: 'prose' },
+      h('h2', {}, 'How accessible is this site?'),
+      h('p', {}, 'We believe the whole site meets WCAG 2.2 level AA. You should be able to:'),
+      h('ul', {},
+        h('li', {}, 'use every page, lesson, quiz, exercise and lab with only a keyboard, and always see where the focus is;'),
+        h('li', {}, 'use the site with a screen reader: pages have one main heading, headings are in order, and every button, link and form field has a name;'),
+        h('li', {}, 'read every text in the light and the dark theme (contrast of at least 4.5 to 1);'),
+        h('li', {}, 'make the text larger in Settings or with your browser’s zoom;'),
+        h('li', {}, 'use the site on a phone 360 pixels wide without scrolling sideways, with buttons at least 24 by 24 pixels;'),
+        h('li', {}, 'turn off animations in Settings (we also follow your device’s “reduce motion” setting);'),
+        h('li', {}, 'keep learning offline after your first visit.')),
+      h('p', {}, 'Slides, flow diagrams, tables and journal entries are real text, not pictures, so they can be read aloud, enlarged and translated by your browser.'),
+      h('h2', {}, 'How we check'),
+      h('p', {}, 'Every change to the site runs automated tests in a real browser before it can be published. They open every page and every lesson and check, among other things:'),
+      h('ul', {},
+        h('li', {}, 'headings, page language, link and button names, form labels, image text alternatives and ARIA references;'),
+        h('li', {}, 'colour contrast of every piece of text, in both themes and in both lesson layouts;'),
+        h('li', {}, 'the size of every clickable target;'),
+        h('li', {}, 'keyboard use: the “Skip to content” link, focus moving to the page heading, and a visible focus ring;'),
+        h('li', {}, 'the layout at phone width.')),
+      h('p', {}, 'Automated tests cannot find every problem, so please tell us when something is hard to use. ',
+        link(`${APP.repo}/blob/main/tests/a11y.test.mjs`, { target: '_blank', rel: 'noopener' }, 'Read the accessibility tests'), '.'),
+      h('h2', {}, 'Known limitations'),
+      h('ul', {},
+        h('li', {}, 'Source links go to the Oracle Help Center and other websites. We do not control how accessible those sites are.'),
+        h('li', {}, 'Lessons are in English only for now. Your browser’s translate feature works on every page.'),
+        h('li', {}, 'Swiping between slides only works on touch screens; the Previous and Next buttons and the arrow keys always work.')),
+      h('h2', {}, 'Tell us about a problem'),
+      h('p', {}, 'If something is hard to use, please tell us. We aim to reply within 5 working days.'),
+      h('ul', {},
+        h('li', {}, link(issues, { target: '_blank', rel: 'noopener' }, 'Open an accessibility issue on GitHub'), ' (public), or'),
+        h('li', {}, 'email ', link(`mailto:${APP.securityEmail}?subject=${encodeURIComponent(`Accessibility: ${APP.name}`)}`, {}, APP.securityEmail), ' (private).')),
+      h('h2', {}, 'About this statement'),
+      h('p', {}, `This statement was last reviewed on ${A11Y_REVIEWED}, for version ${APP.version} of the site. We review it at every release.`)));
 }
 
 /* ---------------------------------------------------------------- certificate */

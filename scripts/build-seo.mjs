@@ -5,13 +5,17 @@
  * The app itself is a single page with hash routes (#/lesson/...), which search
  * engines index poorly. This script writes a plain, fast HTML page for every
  * module and lesson (real text, its own title, description, canonical URL and
- * schema.org data) that links into the interactive lesson, plus sitemap.xml
- * and robots.txt.
+ * schema.org data) that links into the interactive lesson, plus sitemap.xml,
+ * robots.txt, llms.txt, a 404 page and .well-known/security.txt (RFC 9116).
+ *
+ * The output is reproducible: dates come from git (or SOURCE_DATE_EPOCH), never
+ * from the clock, so building the same commit twice gives identical files.
  *
  *   node scripts/build-seo.mjs [outDir]     (default: _site)
  *
  * Output: <outDir>/learn/index.html, <outDir>/learn/<module>/index.html,
- *         <outDir>/learn/<module>/<lesson>/index.html, sitemap.xml, robots.txt
+ *         <outDir>/learn/<module>/<lesson>/index.html, sitemap.xml, robots.txt,
+ *         llms.txt, 404.html, .well-known/security.txt
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
@@ -28,7 +32,17 @@ const SITE = APP.site.endsWith('/') ? APP.site : `${APP.site}/`;
 const OG_IMAGE = `${SITE}assets/icons/og-image.png`;
 const ORG_ID = `${APP.authorUrl}/#organization`;
 const COURSE_ID = `${SITE}#course`;
-const TODAY = new Date().toISOString().slice(0, 10);
+/** Build time: SOURCE_DATE_EPOCH (reproducible-builds.org), else the last commit, else now. */
+function buildTime() {
+  if (/^\d+$/.test(process.env.SOURCE_DATE_EPOCH || '')) return new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000);
+  try {
+    const t = execFileSync('git', ['log', '-1', '--format=%ct'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    if (t) return new Date(Number(t) * 1000);
+  } catch { /* not a git checkout */ }
+  return new Date();
+}
+const BUILT = buildTime();
+const TODAY = BUILT.toISOString().slice(0, 10);
 const INDEXNOW_KEY = '6a4d1cacf5df87fc9b60097379ee2130';
 
 /** Search-friendly topic name per module (what people actually type into Google). */
@@ -366,6 +380,19 @@ await writeFile(path.join(OUT, 'indexnow.json'), JSON.stringify({
   keyLocation: `${SITE}${INDEXNOW_KEY}.txt`,
   urlList: [...urls.map((u) => u.loc)],
 }));
+
+/* security.txt (RFC 9116): where to report a vulnerability. Expires must be under a year away,
+   so every deploy renews it from the commit date. */
+const SECURITY_EXPIRES = new Date(BUILT.getTime() + 364 * 86400000).toISOString().replace(/\.\d{3}Z$/, 'Z');
+await mkdir(path.join(OUT, '.well-known'), { recursive: true });
+await writeFile(path.join(OUT, '.well-known', 'security.txt'), `# Security contact for ${APP.name} (${SITE}). Policy and response times: see Policy.
+Contact: ${APP.repo}/security/advisories/new
+Contact: mailto:${APP.securityEmail}
+Expires: ${SECURITY_EXPIRES}
+Preferred-Languages: en
+Canonical: ${SITE}.well-known/security.txt
+Policy: ${APP.repo}/security/policy
+`);
 
 /* sitemap + robots */
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

@@ -93,6 +93,46 @@ test('workflows: the required status checks exist, and CI runs the same tests as
   assert.match(read(`${WF_DIR}/pages.yml`), /needs: validate/, 'deploy must wait for the tests');
 });
 
+test('workflows: the deployed site and every release are signed with build provenance', () => {
+  const pages = read(`${WF_DIR}/pages.yml`);
+  const deploy = pages.slice(pages.indexOf('\n  deploy:'));
+  assert.match(deploy, /uses: actions\/attest-build-provenance@[0-9a-f]{40}[^\n]*\n\s+with:\n\s+subject-path: \$\{\{ runner\.temp \}\}\/artifact\.tar/, 'the Pages artifact is not attested');
+  assert.ok(deploy.indexOf('upload-pages-artifact') < deploy.indexOf('attest-build-provenance') && deploy.indexOf('attest-build-provenance') < deploy.indexOf('deploy-pages'), 'attest after upload and before deploy');
+  assert.match(deploy, /id-token: write/);
+  assert.match(deploy, /attestations: write/);
+  assert.match(deploy, /include-hidden-files: true/, 'without include-hidden-files, .well-known/security.txt is silently left out of the site');
+
+  const rel = read(`${WF_DIR}/release.yml`);
+  assert.match(rel, /^on:\n\s+push:\n\s+tags: \['v\*'\]/m, 'releases must run on version tags');
+  assert.match(rel, /\^v\[0-9\]\+\\\.\[0-9\]\+\\\.\[0-9\]\+\$/, 'the tag name must be validated before use');
+  assert.ok(rel.indexOf('Check the tag name') < rel.indexOf('actions/checkout'), 'validate the tag before checking it out');
+  assert.match(rel, /does not match package\.json version/, 'a tag must match package.json');
+  const job = rel.slice(rel.indexOf('\njobs:'));
+  for (const p of ['contents: write', 'id-token: write', 'attestations: write']) assert.match(job, new RegExp(p), `release job needs ${p}`);
+  assert.match(rel, /uses: actions\/attest-build-provenance@[0-9a-f]{40}[^\n]*\n\s+with:\n\s+subject-path: dist\/erp-made-simple-\*\.zip/);
+  // Scorecard "Signed-Releases" looks for these files on the release.
+  assert.match(rel, /\.zip\.sigstore\.json/);
+  assert.match(rel, /\.intoto\.jsonl/);
+  assert.match(rel, /SHA256SUMS/);
+  assert.match(rel, /--verify-tag/, 'a release must never create its own tag');
+  // A release contains exactly the site that is deployed.
+  const prep = (src) => src.match(/- name: Prepare site\n\s+run: \|\n((?:\s{10}.*\n)+)/)?.[1];
+  assert.ok(prep(pages), 'pages.yml has no "Prepare site" step');
+  assert.equal(prep(rel), prep(pages), 'release.yml and pages.yml build the site differently');
+});
+
+test('workflows: CI runs the linter and enforces code coverage', () => {
+  const pages = read(`${WF_DIR}/pages.yml`);
+  assert.match(pages, /run: node scripts\/lint\.mjs/);
+  const tests = pages.slice(pages.indexOf('- name: Run tests'));
+  assert.match(tests, /NODE_V8_COVERAGE: \$\{\{ runner\.temp \}\}\/coverage/);
+  assert.match(tests, /COVERAGE_DIR: \$\{\{ runner\.temp \}\}\/coverage/);
+  assert.match(pages, /run: node scripts\/coverage\.mjs --report "\$COVERAGE"/);
+  assert.equal(pkg.scripts.lint, 'node scripts/lint.mjs');
+  assert.equal(pkg.scripts.coverage, 'node scripts/coverage.mjs');
+  assert.match(read('scripts/coverage.mjs'), /MIN_COVERAGE \?\? 80\)/, 'the coverage minimum must stay at least 80%');
+});
+
 test('Dependabot keeps actions current with a cooldown against fresh malicious releases', () => {
   const dep = read('.github/dependabot.yml');
   assert.match(dep, /package-ecosystem:\s*["']?github-actions/);
@@ -100,7 +140,7 @@ test('Dependabot keeps actions current with a cooldown against fresh malicious r
 });
 
 test('project policy files are present and licences are consistent', () => {
-  for (const f of ['LICENSE', 'LICENSES/MIT.txt', 'LICENSES/CC-BY-SA-4.0.txt', 'NOTICE', 'REUSE.toml', 'README.md', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
+  for (const f of ['ROADMAP.md', 'docs/ARCHITECTURE.md', 'docs/ASSURANCE_CASE.md', 'LICENSE', 'LICENSES/MIT.txt', 'LICENSES/CC-BY-SA-4.0.txt', 'NOTICE', 'REUSE.toml', 'README.md', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
     'SECURITY.md', 'SUPPORT.md', 'GOVERNANCE.md', 'CHANGELOG.md', '.github/CODEOWNERS', '.github/PULL_REQUEST_TEMPLATE.md', '.github/ISSUE_TEMPLATE/config.yml', '.editorconfig']) {
     assert.ok(existsSync(join(ROOT, f)), `${f} is missing`);
   }
@@ -109,6 +149,36 @@ test('project policy files are present and licences are consistent', () => {
   assert.match(read('REUSE.toml'), /"content\/\*\*"[^\n]*\n[^[]*?SPDX-License-Identifier = "CC-BY-SA-4.0"/);
   assert.match(read('.github/CODEOWNERS'), /^\*\s+@\w/m, 'CODEOWNERS must cover every file');
   assert.match(read('SECURITY.md'), /private vulnerability reporting|security advisories/i);
+});
+
+test('README shows the trust badges and they point at this project', () => {
+  const readme = read('README.md');
+  const repo = 'appfide/oracle-fusion-erp-made-simple';
+  for (const [name, badge] of [
+    ['OpenSSF Best Practices', /https:\/\/www\.bestpractices\.dev\/projects\/16293\/badge/],
+    ['OpenSSF Scorecard', new RegExp(`api\\.scorecard\\.dev/projects/github\\.com/${repo}/badge`)],
+    ['REUSE', new RegExp(`api\\.reuse\\.software/badge/github\\.com/${repo}`)],
+    ['Release', new RegExp(`actions/workflows/release\\.yml/badge\\.svg`)],
+    ['WCAG', /WCAG%202\.2-AA/],
+  ]) assert.match(readme, badge, `README has no ${name} badge`);
+  for (const doc of ['ROADMAP.md', 'docs/ARCHITECTURE.md', 'docs/ASSURANCE_CASE.md', '#/accessibility']) assert.ok(readme.includes(doc), `README does not link ${doc}`);
+});
+
+test('Markdown docs have no broken relative links or leftover placeholders', () => {
+  const docs = execFileSync('git', ['ls-files', '*.md'], { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean);
+  for (const f of ['ROADMAP.md', 'docs/ARCHITECTURE.md', 'docs/ASSURANCE_CASE.md']) if (!docs.includes(f)) docs.push(f);
+  let checked = 0;
+  for (const f of docs) {
+    const src = read(f);
+    assert.doesNotMatch(src, /\]\(\{[A-Z]+\}|\{\{[^}]+\}\}|\bTODO\b|\bTBD\b/, `${f}: unfilled placeholder`);
+    for (const m of src.matchAll(/\]\(([^)\s]+)\)/g)) {
+      const target = m[1].split('#')[0];
+      if (!target || /^(https?:|mailto:)/.test(target)) continue;
+      checked++;
+      assert.ok(existsSync(join(ROOT, f, '..', target)), `${f}: link to ${m[1]} is broken`);
+    }
+  }
+  assert.ok(checked > 20, 'too few relative links found; is the parser broken?');
 });
 
 test('CHANGELOG has an entry for the current version', () => {

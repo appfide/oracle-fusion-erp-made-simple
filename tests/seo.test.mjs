@@ -153,6 +153,46 @@ test('sitemap, robots.txt, 404 page, llms.txt and IndexNow payload are valid', a
   assert.equal(await readFile(join(OUT, `${indexnow.key}.txt`), 'utf8'), indexnow.key, 'IndexNow key file mismatch');
 });
 
+test('security.txt follows RFC 9116 and points to the real reporting channels', async () => {
+  const txt = await readFile(join(OUT, '.well-known', 'security.txt'), 'utf8');
+  assert.ok(txt.endsWith('\n') && !txt.includes('\r'));
+  const fields = new Map();
+  for (const line of txt.split('\n')) {
+    if (!line || line.startsWith('#')) continue;
+    const m = line.match(/^([A-Za-z-]+): (\S.*)$/);
+    assert.ok(m, `malformed line "${line}"`);
+    fields.set(m[1], [...(fields.get(m[1]) || []), m[2]]);
+  }
+  const KNOWN = ['Acknowledgments', 'Canonical', 'Contact', 'Encryption', 'Expires', 'Hiring', 'Policy', 'Preferred-Languages', 'CSAF'];
+  for (const k of fields.keys()) assert.ok(KNOWN.includes(k), `unknown field ${k}`);
+  // Contact (one or more) and exactly one Expires are required.
+  const contacts = fields.get('Contact') || [];
+  assert.ok(contacts.includes(`${APP.repo}/security/advisories/new`), 'private vulnerability reporting is not a contact');
+  assert.ok(contacts.includes(`mailto:${APP.securityEmail}`), 'security email is not a contact');
+  for (const c of contacts) assert.match(c, /^(https:\/\/|mailto:)/, `contact must be https or mailto: ${c}`);
+  assert.equal(fields.get('Expires')?.length, 1);
+  const expires = Date.parse(fields.get('Expires')[0]);
+  assert.match(fields.get('Expires')[0], /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Expires must be an RFC 3339 UTC time');
+  assert.ok(expires > Date.now(), 'security.txt has expired: deploy again to renew it');
+  assert.ok(expires - Date.now() < 366 * 86400000, 'Expires must be less than a year away');
+  assert.deepEqual(fields.get('Canonical'), [`${SITE}.well-known/security.txt`]);
+  assert.deepEqual(fields.get('Policy'), [`${APP.repo}/security/policy`]);
+  assert.match(await readFile(join(ROOT, 'SECURITY.md'), 'utf8'), new RegExp(APP.securityEmail.replace('.', '\\.')), 'SECURITY.md and security.txt name different emails');
+});
+
+test('the build is reproducible: the same commit always gives identical files', async () => {
+  const again = await mkdtemp(join(tmpdir(), 'erp-seo-again-'));
+  try {
+    execFileSync(process.execPath, [join(ROOT, 'scripts/build-seo.mjs'), again], { cwd: ROOT, stdio: 'pipe' });
+    const files = ['sitemap.xml', 'robots.txt', 'llms.txt', '404.html', '.well-known/security.txt', 'learn/index.html', `learn/${curriculum[0].id}/index.html`, `learn/${curriculum[0].id}/${curriculum[0].lessons[0].slug}/index.html`];
+    for (const f of files) assert.equal(await readFile(join(again, f), 'utf8'), await readFile(join(OUT, f), 'utf8'), `${f} differs between two builds`);
+    // SOURCE_DATE_EPOCH (reproducible-builds.org) pins the dates explicitly.
+    execFileSync(process.execPath, [join(ROOT, 'scripts/build-seo.mjs'), again], { cwd: ROOT, stdio: 'pipe', env: { ...process.env, SOURCE_DATE_EPOCH: '1767225600' } });
+    assert.match(await readFile(join(again, '.well-known/security.txt'), 'utf8'), /^Expires: 2026-12-31T00:00:00Z$/m);
+    assert.match(await readFile(join(again, 'sitemap.xml'), 'utf8'), /<loc>[^<]+<\/loc><lastmod>2026-01-01<\/lastmod><priority>1\.0<\/priority>/);
+  } finally { await rm(again, { recursive: true, force: true }); }
+});
+
 test('every generated page opens in a real browser with no errors', { skip: SKIP, timeout: 300000 }, async () => {
   const server = await serve(OUT);
   const b = await launch();
