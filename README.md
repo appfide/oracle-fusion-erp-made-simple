@@ -8,7 +8,7 @@
 [![Dependabot auto-merge](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/dependabot-auto-merge.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16293/badge)](https://www.bestpractices.dev/projects/16293)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/appfide/oracle-fusion-erp-made-simple/badge)](https://scorecard.dev/viewer/?uri=github.com/appfide/oracle-fusion-erp-made-simple)
-[![REUSE status](https://api.reuse.software/badge/github.com/appfide/oracle-fusion-erp-made-simple)](https://api.reuse.software/info/github.com/appfide/oracle-fusion-erp-made-simple)
+[![REUSE compliant](https://img.shields.io/badge/REUSE-compliant-2ea44f)](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/compliance.yml)
 [![Release](https://github.com/appfide/oracle-fusion-erp-made-simple/actions/workflows/release.yml/badge.svg)](https://github.com/appfide/oracle-fusion-erp-made-simple/releases)
 [![Signed: SLSA build provenance](https://img.shields.io/badge/signed-SLSA%20provenance-2ea44f?logo=sigstore&logoColor=white)](https://github.com/appfide/oracle-fusion-erp-made-simple/attestations)
 [![Accessibility: WCAG 2.2 AA](https://img.shields.io/badge/WCAG%202.2-AA-2ea44f)](https://appfide.github.io/oracle-fusion-erp-made-simple/#/accessibility)
