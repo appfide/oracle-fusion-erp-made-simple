@@ -7,6 +7,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 - Re-releasing an older tag no longer marks it as the latest release.
+- The README REUSE badge links to the REUSE compliance check that runs on every pull request (the REUSE API
+  registration currently rejects GitHub repositories).
 
 ## [1.3.0] - 2026-11-04
 

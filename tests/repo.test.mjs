@@ -159,7 +159,8 @@ test('README shows the trust badges and they point at this project', () => {
   for (const [name, badge] of [
     ['OpenSSF Best Practices', /https:\/\/www\.bestpractices\.dev\/projects\/16293\/badge/],
     ['OpenSSF Scorecard', new RegExp(`api\\.scorecard\\.dev/projects/github\\.com/${repo}/badge`)],
-    ['REUSE', new RegExp(`api\\.reuse\\.software/badge/github\\.com/${repo}`)],
+    // The official REUSE API badge, or (until registration works) a badge linked to the REUSE check that runs on every PR.
+    ['REUSE', new RegExp(`api\\.reuse\\.software/badge/github\\.com/${repo}|badge/REUSE-compliant-2ea44f\\)\\]\\(https://github\\.com/${repo}/actions/workflows/compliance\\.yml\\)`)],
     ['Release', new RegExp(`actions/workflows/release\\.yml/badge\\.svg`)],
     ['WCAG', /WCAG%202\.2-AA/],
   ]) assert.match(readme, badge, `README has no ${name} badge`);
