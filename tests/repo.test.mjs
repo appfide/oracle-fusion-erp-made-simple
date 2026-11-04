@@ -115,6 +115,8 @@ test('workflows: the deployed site and every release are signed with build prove
   assert.match(rel, /\.intoto\.jsonl/);
   assert.match(rel, /SHA256SUMS/);
   assert.match(rel, /--verify-tag/, 'a release must never create its own tag');
+  assert.match(rel, /--sort=-v:refname/, 'only the highest version may be marked Latest');
+  assert.match(rel, /--latest="\$latest"/, 'only the highest version may be marked Latest');
   // A release contains exactly the site that is deployed.
   const prep = (src) => src.match(/- name: Prepare site\n\s+run: \|\n((?:\s{10}.*\n)+)/)?.[1];
   assert.ok(prep(pages), 'pages.yml has no "Prepare site" step');
